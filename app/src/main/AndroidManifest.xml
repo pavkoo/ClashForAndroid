@@ -107,6 +107,11 @@
             android:exported="false"
             android:label="@string/proxy" />
         <activity
+            android:name=".ModeActivity"
+            android:configChanges="uiMode"
+            android:exported="false"
+            android:label="@string/proxy" />
+        <activity
             android:name=".ProvidersActivity"
             android:configChanges="uiMode"
             android:exported="false"

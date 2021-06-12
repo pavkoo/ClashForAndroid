@@ -54,7 +54,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                                 design.startClash()
                         }
                         HomeDesign.Request.OpenProxy ->
-                            startActivity(ProxyActivity::class.intent)
+                            startActivity(ModeActivity::class.intent)
                         HomeDesign.Request.OpenProfiles ->
                             startActivity(ProfilesActivity::class.intent)
                         HomeDesign.Request.OpenProviders ->

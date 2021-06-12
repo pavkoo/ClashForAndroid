@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="self"
+            type="com.github.kr328.clash.design.ModeDesign" />
+        <variable
+            name="check"
+            type="boolean" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@{self.surface.insets.start}"
+        android:paddingEnd="@{self.surface.insets.end}">
+
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/proxy_empty_tips"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.github.kr328.clash.design.view.ActivityBarLayout
+                android:id="@+id/activity_bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@{self.surface.insets.top}">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include
+                        layout="@layout/common_activity_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true" />
+
+                </RelativeLayout>
+            </com.github.kr328.clash.design.view.ActivityBarLayout>
+
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:checked="@{!check}"
+                android:onClick="@{()->self.toggle()}"
+                android:padding="20dp"
+                android:text="@string/global_mode"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="32dp"
+                android:background="#aaa" />
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:checked="@{check}"
+                android:onClick="@{()->self.toggle()}"
+                android:padding="20dp"
+                android:text="@string/rule_mode"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
