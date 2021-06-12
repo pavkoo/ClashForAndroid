@@ -36,11 +36,6 @@ class LargeActionCard @JvmOverloads constructor(
         }
 
     init {
-        context.resolveClickableAttrs(attributeSet, defStyleAttr) {
-            isFocusable = focusable(true)
-            isClickable = clickable(true)
-            foreground = foreground() ?: context.selectableItemBackground
-        }
 
         context.theme.obtainStyledAttributes(
             attributeSet,
@@ -56,10 +51,5 @@ class LargeActionCard @JvmOverloads constructor(
                 recycle()
             }
         }
-
-        minimumHeight = context.getPixels(R.dimen.large_action_card_min_height)
-        radius = context.getPixels(R.dimen.large_action_card_radius).toFloat()
-        elevation = context.getPixels(R.dimen.large_action_card_elevation).toFloat()
-        setCardBackgroundColor(context.resolveThemedColor(R.attr.colorSurface))
     }
 }

@@ -1,4 +1,4 @@
-package com.github.kr328.clash.common.ucss.ui;
+package com.github.kr328.clash.design.view;
 
 import android.view.View;
 import android.widget.ListView;

@@ -11,4 +11,5 @@
     <string name="proxy">Mode</string>
     <string name="rule_mode">Smart Routing</string>
     <string name="global_mode">Global</string>
+    <string name="connHint">Please Connect first</string>
 </resources>

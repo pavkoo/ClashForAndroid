@@ -21,7 +21,6 @@
     <string name="delete_all_logs">刪除所有日誌</string>
     <string name="delete_all_logs_warn">所有歷史日誌將丟失</string>
     <string name="detail">詳情</string>
-    <string name="direct_mode">直連模式</string>
     <string name="disabled">已禁用</string>
     <string name="dns_hijacking">DNS 劫持</string>
     <string name="dns_hijacking_summary">處理所有 DNS 數據包</string>

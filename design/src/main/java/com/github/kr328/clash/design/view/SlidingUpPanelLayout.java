@@ -1,9 +1,8 @@
-package com.github.kr328.clash.common.ucss.ui;
+package com.github.kr328.clash.design.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
@@ -23,7 +22,7 @@ import android.view.animation.Interpolator;
 import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ViewCompat;
 
-import com.github.kr328.clash.common.R;
+import com.github.kr328.clash.design.R;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -1100,7 +1099,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     public void setPanelState(PanelState state) {
 
         // Abort any running animation, to allow state change
-        if(mDragHelper.getViewDragState() == ViewDragHelper.STATE_SETTLING){
+        if (mDragHelper.getViewDragState() == ViewDragHelper.STATE_SETTLING) {
             Log.d(TAG, "View is settling. Aborting animation.");
             mDragHelper.abort();
         }
@@ -1184,43 +1183,43 @@ public class SlidingUpPanelLayout extends ViewGroup {
         }
     }
 
-    @Override
-    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-        boolean result;
-        final int save = canvas.save();
-
-        if (mSlideableView != null && mSlideableView != child) { // if main view
-            // Clip against the slider; no sense drawing what will immediately be covered,
-            // Unless the panel is set to overlay content
-            canvas.getClipBounds(mTmpRect);
-            if (!mOverlayContent) {
-                if (mIsSlidingUp) {
-                    mTmpRect.bottom = Math.min(mTmpRect.bottom, mSlideableView.getTop());
-                } else {
-                    mTmpRect.top = Math.max(mTmpRect.top, mSlideableView.getBottom());
-                }
-            }
-            if (mClipPanel) {
-                canvas.clipRect(mTmpRect);
-            }
-
-            result = super.drawChild(canvas, child, drawingTime);
-
-            if (mCoveredFadeColor != 0 && mSlideOffset > 0) {
-                final int baseAlpha = (mCoveredFadeColor & 0xff000000) >>> 24;
-                final int imag = (int) (baseAlpha * mSlideOffset);
-                final int color = imag << 24 | (mCoveredFadeColor & 0xffffff);
-                mCoveredFadePaint.setColor(color);
-                canvas.drawRect(mTmpRect, mCoveredFadePaint);
-            }
-        } else {
-            result = super.drawChild(canvas, child, drawingTime);
-        }
-
-        canvas.restoreToCount(save);
-
-        return result;
-    }
+//    @Override
+//    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+//        boolean result;
+//        final int save = canvas.save();
+//
+//        if (mSlideableView != null && mSlideableView != child) { // if main view
+//            // Clip against the slider; no sense drawing what will immediately be covered,
+//            // Unless the panel is set to overlay content
+//            canvas.getClipBounds(mTmpRect);
+//            if (!mOverlayContent) {
+//                if (mIsSlidingUp) {
+//                    mTmpRect.bottom = Math.min(mTmpRect.bottom, mSlideableView.getTop());
+//                } else {
+//                    mTmpRect.top = Math.max(mTmpRect.top, mSlideableView.getBottom());
+//                }
+//            }
+//            if (mClipPanel) {
+//                canvas.clipRect(mTmpRect);
+//            }
+//
+//            result = super.drawChild(canvas, child, drawingTime);
+//
+//            if (mCoveredFadeColor != 0 && mSlideOffset > 0) {
+//                final int baseAlpha = (mCoveredFadeColor & 0xff000000) >>> 24;
+//                final int imag = (int) (baseAlpha * mSlideOffset);
+//                final int color = imag << 24 | (mCoveredFadeColor & 0xffffff);
+//                mCoveredFadePaint.setColor(color);
+//                canvas.drawRect(mTmpRect, mCoveredFadePaint);
+//            }
+//        } else {
+//            result = super.drawChild(canvas, child, drawingTime);
+//        }
+//
+//        canvas.restoreToCount(save);
+//
+//        return result;
+//    }
 
     /**
      * Smoothly animate mDraggingPane to the target X position within its range.
@@ -1256,27 +1255,27 @@ public class SlidingUpPanelLayout extends ViewGroup {
         }
     }
 
-    @Override
-    public void draw(Canvas c) {
-        super.draw(c);
-
-        // draw the shadow
-        if (mShadowDrawable != null && mSlideableView != null) {
-            final int right = mSlideableView.getRight();
-            final int top;
-            final int bottom;
-            if (mIsSlidingUp) {
-                top = mSlideableView.getTop() - mShadowHeight;
-                bottom = mSlideableView.getTop();
-            } else {
-                top = mSlideableView.getBottom();
-                bottom = mSlideableView.getBottom() + mShadowHeight;
-            }
-            final int left = mSlideableView.getLeft();
-            mShadowDrawable.setBounds(left, top, right, bottom);
-            mShadowDrawable.draw(c);
-        }
-    }
+//    @Override
+//    public void draw(Canvas c) {
+//        super.draw(c);
+//
+//        // draw the shadow
+//        if (mShadowDrawable != null && mSlideableView != null) {
+//            final int right = mSlideableView.getRight();
+//            final int top;
+//            final int bottom;
+//            if (mIsSlidingUp) {
+//                top = mSlideableView.getTop() - mShadowHeight;
+//                bottom = mSlideableView.getTop();
+//            } else {
+//                top = mSlideableView.getBottom();
+//                bottom = mSlideableView.getBottom() + mShadowHeight;
+//            }
+//            final int left = mSlideableView.getLeft();
+//            mShadowDrawable.setBounds(left, top, right, bottom);
+//            mShadowDrawable.draw(c);
+//        }
+//    }
 
     /**
      * Tests scrollability within child views of v given a delta of dx.
