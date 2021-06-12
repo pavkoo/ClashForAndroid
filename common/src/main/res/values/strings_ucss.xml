@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="app_com">UCSS</string>
+    <string name="forget">Forget Password?</string>
+    <string name="signUp">Sign Up</string>
+    <string name="login">LOGIN</string>
+    <string name="connected">CONNECTED</string>
+    <string name="connecting">CONNECTING...</string>
+    <string name="disconnected">DISCONNECTED</string>
+    <string name="mode">Mode</string>
+    <string name="proxy">Mode</string>
+    <string name="rule_mode">Smart Routing</string>
+    <string name="global_mode">Global</string>
 </resources>

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="bg_main">#3E3E3E</color>
+    <color name="color_main">#25A2C3</color>
+    <color name="color_error">#E75352</color>
+
+    <color name="connect_dis">#34A2C3</color>
+    <color name="connect_ing">#268543</color>
+    <color name="connect_ed">#39C356</color>
 </resources>

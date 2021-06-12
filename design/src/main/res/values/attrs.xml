@@ -19,8 +19,21 @@
         <attr name="subtext" />
         <attr name="icon" />
     </declare-styleable>
+    <declare-styleable name="LargeRingCard">
+        <attr name="text" />
+        <attr name="subtext" />
+        <attr name="icon" />
+    </declare-styleable>
 
+    <declare-styleable name="SimpleProgressbar">
+        <attr name="running" format="boolean" />
+    </declare-styleable>
     <declare-styleable name="LargeActionLabel">
+        <attr name="text" />
+        <attr name="subtext" />
+        <attr name="icon" />
+    </declare-styleable>
+    <declare-styleable name="LargeModeLabel">
         <attr name="text" />
         <attr name="subtext" />
         <attr name="icon" />

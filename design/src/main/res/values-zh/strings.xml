@@ -37,7 +37,6 @@
     <string name="format_minutes">%d 分钟</string>
     <string name="format_profile_activated">%s 已激活</string>
     <string name="format_traffic_forwarded">%s 已转发</string>
-    <string name="global_mode">全局模式</string>
     <string name="history">历史</string>
     <string name="import_from_file">从文件导入</string>
     <string name="import_from_url">从 URL 导入</string>
@@ -60,7 +59,6 @@
     <string name="recently">近期</string>
     <string name="route_system_traffic">自动路由系统流量</string>
     <string name="routing_via_vpn_service">通过 VpnService 自动路由所有系统流量</string>
-    <string name="rule_mode">规则模式</string>
     <string name="running">运行中</string>
     <string name="settings">设置</string>
     <string name="show_traffic">显示流量</string>
