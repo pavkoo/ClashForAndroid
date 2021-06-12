@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_com">UCSS</string>
+    <string name="app_com_android">UCSS for Android</string>
     <string name="forget">Forget Password?</string>
     <string name="signUp">Sign Up</string>
     <string name="login">LOGIN</string>
@@ -14,4 +15,13 @@
     <string name="connHint">Please Connect first</string>
     <string name="location">LOCATION</string>
     <string name="ping">PING</string>
+    <string name="ucssSetting">SETTING</string>
+    <string name="ucssHELP">HELP</string>
+    <string name="wifi">Wi-Fi Access</string>
+    <string name="account">Account</string>
+    <string name="support">Contract Support</string>
+    <string name="aboutUcss">About UCSS</string>
+    <string name="copyright">Copyright 2017-2021 UCSS. All rights reserved.</string>
+    <string name="privacy">Privacy policy</string>
+    <string name="terms">Terms of service</string>
 </resources>

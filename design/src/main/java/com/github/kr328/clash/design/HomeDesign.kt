@@ -35,6 +35,10 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
         FetchProxy,
         Ping,
         Select,
+        OpenWifi,
+        OpenAccount,
+        OpenSupport,
+        OpenUCAbout,
     }
 
     enum class ConState {

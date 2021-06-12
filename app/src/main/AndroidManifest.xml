@@ -30,8 +30,8 @@
         tools:targetApi="N">
         <activity
             android:name=".ucss.SplashActivity"
-            android:theme="@style/FullScreen"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,8 +40,8 @@
         </activity>
         <activity
             android:name=".ucss.LoginActivity"
-            android:theme="@style/FullScreen"
-            />
+            android:theme="@style/FullScreen" />
+
         <meta-data
             android:name="releaseName"
             android:value="@string/release_name" />
@@ -108,6 +108,11 @@
             android:label="@string/proxy" />
         <activity
             android:name=".ModeActivity"
+            android:configChanges="uiMode"
+            android:exported="false"
+            android:label="@string/proxy" />
+        <activity
+            android:name=".AboutUCSSActivity"
             android:configChanges="uiMode"
             android:exported="false"
             android:label="@string/proxy" />

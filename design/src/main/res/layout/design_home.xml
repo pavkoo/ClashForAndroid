@@ -259,7 +259,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="90dp"
                     android:animateLayoutChanges="true"
                     android:clipToPadding="false"
                     android:orientation="vertical">
@@ -275,44 +275,81 @@
 
                     <com.github.kr328.clash.design.view.LargeActionLabel
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/main_label_margin_vertical"
+                        android:onClick="@{() -> self.request(Request.OpenSettings)}"
+                        app:text="@string/settings" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="24dp"
+                        android:text="@string/ucssSetting"
+                        android:textColor="#8D8D8D"
+                        android:textSize="16sp" />
+
+                    <com.github.kr328.clash.design.view.LargeActionLabel
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="@dimen/main_label_margin_vertical"
-                        android:onClick="@{() -> self.request(Request.OpenProviders)}"
-                        android:visibility="@{clashRunning &amp;&amp; hasProviders ? View.VISIBLE : View.GONE}"
-                        app:icon="@drawable/ic_baseline_swap_vertical_circle"
-                        app:text="@string/providers" />
+                        android:onClick="@{() -> self.request(Request.OpenProxy )}"
+                        android:visibility="@{clashRunning ? View.VISIBLE : View.GONE}"
+                        app:text="@string/mode" />
+
+                    <com.github.kr328.clash.design.view.LargeActionLabel
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/main_label_margin_vertical"
+                        android:onClick="@{() -> self.request(Request.OpenWifi)}"
+                        app:text="@string/wifi" />
+
+
+                    <com.github.kr328.clash.design.view.LargeActionLabel
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/main_label_margin_vertical"
+                        android:onClick="@{() -> self.request(Request.OpenAccount)}"
+                        app:text="@string/account" />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="#aaa" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="24dp"
+                        android:text="@string/ucssHELP"
+                        android:textColor="#8D8D8D"
+                        android:textSize="16sp" />
+
+
+                    <com.github.kr328.clash.design.view.LargeActionLabel
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/main_label_margin_vertical"
+                        android:onClick="@{() -> self.request(Request.OpenSupport)}"
+                        app:text="@string/support" />
+
 
                     <com.github.kr328.clash.design.view.LargeActionLabel
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="@dimen/main_label_margin_vertical"
                         android:onClick="@{() -> self.request(Request.OpenLogs)}"
-                        app:icon="@drawable/ic_baseline_assignment"
                         app:text="@string/logs" />
 
-                    <com.github.kr328.clash.design.view.LargeActionLabel
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/main_label_margin_vertical"
-                        android:onClick="@{() -> self.request(Request.OpenSettings)}"
-                        app:icon="@drawable/ic_baseline_settings"
-                        app:text="@string/settings" />
 
                     <com.github.kr328.clash.design.view.LargeActionLabel
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="@dimen/main_label_margin_vertical"
-                        android:onClick="@{() -> self.request(Request.OpenHelp)}"
-                        app:icon="@drawable/ic_baseline_help_center"
-                        app:text="@string/help" />
-
-                    <com.github.kr328.clash.design.view.LargeActionLabel
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/main_label_margin_vertical"
-                        android:onClick="@{() -> self.request(Request.OpenAbout)}"
-                        app:icon="@drawable/ic_baseline_info"
-                        app:text="@string/about" />
+                        android:onClick="@{() -> self.request(Request.OpenUCAbout)}"
+                        app:text="@string/aboutUcss" />
                 </LinearLayout>
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
