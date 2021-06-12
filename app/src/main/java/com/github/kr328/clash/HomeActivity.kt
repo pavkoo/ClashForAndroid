@@ -65,6 +65,8 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                             startActivity(SettingsActivity::class.intent)
                         HomeDesign.Request.OpenHelp ->
                             startActivity(HelpActivity::class.intent)
+                        HomeDesign.Request.OpenWifi ->
+                            startActivity(WifiActivity::class.intent)
                         HomeDesign.Request.OpenUCAbout ->
                             startActivity(AboutUCSSActivity::class.intent)
                         HomeDesign.Request.OpenAbout ->
