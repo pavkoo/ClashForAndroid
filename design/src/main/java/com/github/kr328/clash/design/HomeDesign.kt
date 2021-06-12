@@ -3,8 +3,12 @@ package com.github.kr328.clash.design
 import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
+import com.github.kr328.clash.core.model.ProxyGroup
 import com.github.kr328.clash.core.model.TunnelState
 import com.github.kr328.clash.core.util.trafficTotal
+import com.github.kr328.clash.design.adapter.ProxyNodeAdapter
+import com.github.kr328.clash.design.adapter.ProxyPageAdapter
 import com.github.kr328.clash.design.databinding.DesignAboutBinding
 import com.github.kr328.clash.design.databinding.DesignHomeBinding
 import com.github.kr328.clash.design.databinding.DesignMainBinding
@@ -14,8 +18,10 @@ import com.github.kr328.clash.design.util.root
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.E
 
 class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
+
     enum class Request {
         ToggleStatus,
         OpenProxy,
@@ -26,6 +32,9 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
         OpenHelp,
         OpenAbout,
         OpenDrawer,
+        FetchProxy,
+        Ping,
+        Select,
     }
 
     enum class ConState {
@@ -36,6 +45,13 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
 
     private val binding = DesignHomeBinding
         .inflate(context.layoutInflater, context.root, false)
+
+    private val adapter: ProxyNodeAdapter
+        get() = binding.rvProxy.adapter!! as ProxyNodeAdapter
+    private var urlTesting: Boolean = false
+
+    lateinit var name: String
+    lateinit var currentNode: String
 
     override val root: View
         get() = binding.root
@@ -50,7 +66,7 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
         withContext(Dispatchers.Main) {
             binding.clashRunning = running
             if (running) {
-                setConState(ConState.ED)
+                request(Request.FetchProxy)
             } else {
                 setConState(ConState.DIS)
             }
@@ -120,9 +136,58 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
         binding.colorClashStarted = context.resolveThemedColor(R.attr.colorPrimary)
         binding.colorClashStopped = context.resolveThemedColor(R.attr.colorClashStopped)
         binding.conState = ConState.DIS
+
+        binding.rvProxy.apply {
+            adapter = ProxyNodeAdapter {
+                currentNode = it
+                request(Request.Select)
+            }
+            layoutManager = GridLayoutManager(context, 1)
+            clipToPadding = false
+        }
     }
 
     fun request(request: Request) {
         requests.trySend(request)
+    }
+
+    suspend fun updateProxy(group: ProxyGroup) {
+        adapter.updateSource(group.proxies)
+        updateCurrent(group.now)
+        setConState(ConState.ED)
+        urlTesting = false
+        withContext(Dispatchers.Main) {
+            updateUrlTestButtonStatus()
+        }
+    }
+
+    private suspend fun updateCurrent(now: String) {
+        withContext(Dispatchers.Main) {
+            val c = adapter.states.find { s -> s.name == now }
+            binding.currentNode.setSource(c)
+        }
+    }
+
+
+    fun requestUrlTesting() {
+        urlTesting = true
+
+        requests.trySend(Request.Ping)
+
+        updateUrlTestButtonStatus()
+    }
+
+    private fun updateUrlTestButtonStatus() {
+        if (urlTesting) {
+            binding.tvPing.visibility = View.GONE
+            binding.urlTestProgressView.visibility = View.VISIBLE
+        } else {
+            binding.tvPing.visibility = View.VISIBLE
+            binding.urlTestProgressView.visibility = View.GONE
+        }
+    }
+
+    suspend fun changeNode() {
+        updateCurrent(currentNode)
     }
 }

@@ -52,6 +52,7 @@
                 android:layout_height="match_parent"
                 android:gravity="bottom"
                 app:umanoPanelHeight="160dp"
+                app:umanoScrollableView="@id/rv_proxy"
                 app:umanoShadowHeight="0dp">
 
                 <LinearLayout
@@ -173,11 +174,61 @@
                                 android:textColor="#999"
                                 android:textSize="20sp"
                                 android:visibility="@{clashRunning ? View.GONE: View.VISIBLE }" />
-
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:visibility="@{conState == ConState.ED ? View.VISIBLE :View.GONE }">
+                                <com.github.kr328.clash.design.component.ProxyNodeView
+                                    android:id="@+id/current_node"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="30dp"
+                                    android:layout_marginBottom="30dp" />
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="24dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:layout_marginBottom="24dp">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:text="@string/location"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="24sp"
+                                        android:textStyle="bold" />
+                                    <TextView
+                                        android:id="@+id/tv_ping"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="right|center_vertical"
+                                        android:background="@drawable/shape_ring_rect_8"
+                                        android:onClick="@{() -> self.requestUrlTesting()}"
+                                        android:paddingLeft="8dp"
+                                        android:paddingTop="4dp"
+                                        android:paddingRight="8dp"
+                                        android:paddingBottom="4dp"
+                                        android:text="@string/ping"
+                                        android:textColor="@android:color/white" />
+                                    <ProgressBar
+                                        android:id="@+id/url_test_progress_view"
+                                        android:layout_width="@dimen/item_tailing_component_size"
+                                        android:layout_height="@dimen/item_tailing_component_size"
+                                        android:layout_gravity="right|center_vertical"
+                                        android:indeterminate="true"
+                                        android:indeterminateTint="@android:color/white"
+                                        android:visibility="gone" />
+                                </FrameLayout>
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rv_proxy"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
                         </LinearLayout>
                     </com.github.kr328.clash.design.view.LargeActionCard>
-
-
                 </FrameLayout>
             </com.github.kr328.clash.design.view.SlidingUpPanelLayout>
 

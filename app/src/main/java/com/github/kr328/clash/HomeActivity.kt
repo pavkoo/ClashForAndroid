@@ -3,7 +3,9 @@ package com.github.kr328.clash
 import androidx.activity.result.contract.ActivityResultContracts
 import com.github.kr328.clash.common.util.intent
 import com.github.kr328.clash.common.util.ticker
+import com.github.kr328.clash.core.model.Proxy
 import com.github.kr328.clash.design.HomeDesign
+import com.github.kr328.clash.design.ProxyDesign
 import com.github.kr328.clash.design.ui.ToastDuration
 import com.github.kr328.clash.store.TipsStore
 import com.github.kr328.clash.util.startClashService
@@ -14,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
+import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
@@ -66,6 +69,12 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                             design.showAbout(queryAppVersionName())
                         HomeDesign.Request.OpenDrawer ->
                             design.openDrawer()
+                        HomeDesign.Request.FetchProxy ->
+                            fetchProxy()
+                        HomeDesign.Request.Ping ->
+                            ping()
+                        HomeDesign.Request.Select ->
+                            selectNode()
                     }
                 }
                 if (clashRunning) {
@@ -74,6 +83,34 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                     }
                 }
             }
+        }
+    }
+
+    private suspend fun selectNode() {
+        withClash {
+            patchSelector(design?.name!!, design?.currentNode!!)
+            design?.changeNode()
+        }
+    }
+
+    private suspend fun fetchProxy() {
+        withClash {
+            val names = queryProxyGroupNames(true)
+            if (names.isNotEmpty()) {
+                design?.name = names[0]
+                val group = queryProxyGroup(names[0], uiStore.proxySort)
+                design?.updateProxy(group)
+            }
+        }
+    }
+
+    private suspend fun ping() {
+        launch {
+            withClash {
+                design?.name?.let { healthCheck(it) }
+            }
+
+            fetchProxy()
         }
     }
 
