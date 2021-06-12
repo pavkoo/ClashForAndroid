@@ -90,6 +90,7 @@ android {
 
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
 
     compileOptions {
@@ -116,6 +117,10 @@ dependencies {
     api(project(":service"))
     api(project(":design"))
     api(project(":common"))
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.annotation:annotation:1.2.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
 
     premiumImplementation("com.microsoft.appcenter:appcenter-analytics:$appcenterVersion")
     premiumImplementation("com.microsoft.appcenter:appcenter-crashes:$appcenterVersion")

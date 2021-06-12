@@ -42,6 +42,15 @@ dependencies {
     implementation(kotlin("stdlib-jdk7"))
     implementation("androidx.core:core-ktx:$coreVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
+
+    api("androidx.drawerlayout:drawerlayout:1.1.1")
+    api("androidx.recyclerview:recyclerview:$recyclerviewVersion")
+
+    api("com.squareup.retrofit2:retrofit:2.9.0")
+    api("com.squareup.retrofit2:converter-gson:2.9.0")
+    api("com.google.code.gson:gson:2.8.6")
+    api("com.squareup.okhttp3:okhttp:3.14.9")
+    api("com.squareup.okhttp3:logging-interceptor:3.14.9")
 }
 
 repositories {

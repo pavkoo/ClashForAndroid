@@ -18,7 +18,13 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+    }
 
+    fun finalize() {
+        Global.destroy()
+    }
+
+    fun start(){
         // Initialize AppCenter
         Tracker.initialize(this)
 
@@ -31,9 +37,5 @@ class MainApplication : Application() {
         } else {
             sendServiceRecreated()
         }
-    }
-
-    fun finalize() {
-        Global.destroy()
     }
 }
