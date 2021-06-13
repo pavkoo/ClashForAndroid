@@ -227,7 +227,7 @@
                                     android:id="@+id/rv_proxy"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingBottom="30dp"/>
+                                    android:paddingBottom="30dp" />
                             </LinearLayout>
                         </LinearLayout>
                     </com.github.kr328.clash.design.view.LargeActionCard>
@@ -246,7 +246,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.8" />
+                app:layout_constraintGuide_percent="0.9" />
             <ScrollView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -269,7 +269,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="@dimen/main_card_margin_vertical"
-                        android:visibility="gone"
                         android:onClick="@{() -> self.request(Request.OpenProfiles)}"
                         app:icon="@drawable/ic_baseline_view_list"
                         app:subtext="@{profileName != null ? @string/format_profile_activated(profileName) : @string/not_selected}"
@@ -278,17 +277,17 @@
                     <com.github.kr328.clash.design.view.LargeActionLabel
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:layout_marginVertical="@dimen/main_label_margin_vertical"
                         android:onClick="@{() -> self.request(Request.OpenSettings)}"
+                        android:visibility="gone"
                         app:text="@string/settings" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="70dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="24dp"
-                        android:layout_marginLeft="70dp"
                         android:text="@string/ucssSetting"
                         android:textColor="#8D8D8D"
                         android:textSize="16sp" />
@@ -326,9 +325,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="70dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="24dp"
-                        android:layout_marginLeft="70dp"
                         android:text="@string/ucssHELP"
                         android:textColor="#8D8D8D"
                         android:textSize="16sp" />

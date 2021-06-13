@@ -3,6 +3,7 @@ package com.github.kr328.clash.design.store
 import android.content.Context
 import com.github.kr328.clash.common.store.Store
 import com.github.kr328.clash.common.store.asStoreProvider
+import com.github.kr328.clash.common.ucss.http.UserInfo
 import com.github.kr328.clash.core.model.ProxySort
 import com.github.kr328.clash.design.model.AppInfoSort
 import com.github.kr328.clash.design.model.DarkMode
@@ -17,6 +18,11 @@ class UiStore(context: Context) {
     var enableVpn: Boolean by store.boolean(
         key = "enable_vpn",
         defaultValue = true
+    )
+
+    var userInfo: String by store.string(
+        key = "user_info",
+        defaultValue = "",
     )
 
     var darkMode: DarkMode by store.enum(

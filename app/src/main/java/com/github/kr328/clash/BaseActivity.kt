@@ -1,9 +1,11 @@
 package com.github.kr328.clash
 
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kr328.clash.common.compat.isAllowForceDarkCompat
@@ -27,6 +29,10 @@ import kotlinx.coroutines.channels.Channel
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import android.view.WindowManager
+
+
+
 
 abstract class BaseActivity<D : Design<*>> :
     AppCompatActivity(),

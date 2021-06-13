@@ -46,7 +46,7 @@ class AboutUCSSDesign(
     }
 
 
-    fun request(request: AboutUCSSDesign.Request) {
+    fun request(request: Request) {
         requests.trySend(request)
     }
 

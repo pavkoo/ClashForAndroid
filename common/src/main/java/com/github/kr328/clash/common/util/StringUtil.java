@@ -7,6 +7,6 @@ import android.util.Base64;
  */
 public class StringUtil {
     public static String base64(String value) {
-        return Base64.encodeToString(value.getBytes(), Base64.NO_WRAP);
+        return "Basic "+Base64.encodeToString(value.getBytes(), Base64.NO_WRAP);
     }
 }

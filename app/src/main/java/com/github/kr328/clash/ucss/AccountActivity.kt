@@ -1,17 +1,35 @@
 package com.github.kr328.clash.ucss
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kr328.clash.R
+import com.github.kr328.clash.common.Global
+import com.github.kr328.clash.common.log.Log
+import com.github.kr328.clash.common.ucss.http.*
+import com.github.kr328.clash.common.util.intent
 import com.github.kr328.clash.databinding.ActivityAccountBinding
+import com.github.kr328.clash.design.store.UiStore
 import com.github.kr328.clash.design.ui.Surface
 import com.github.kr328.clash.design.util.applyFrom
 import com.github.kr328.clash.design.util.setOnInsertsChangedListener
+import com.github.kr328.clash.util.stopClashService
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class AccountActivity : AppCompatActivity() {
     val surface = Surface()
+    private lateinit var binding: ActivityAccountBinding
+
+    private val adapter: AccountNodeAdapter
+        get() = binding.rvAccount.adapter!! as AccountNodeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,16 +39,56 @@ class AccountActivity : AppCompatActivity() {
             }
         }
         theme.applyStyle(R.style.AppThemeDark, true)
-        val binding: ActivityAccountBinding = DataBindingUtil.setContentView(
+        binding = DataBindingUtil.setContentView(
             this, R.layout.activity_account
         )
         binding.activityBarLayout.applyFrom(this)
 
-        
+        initView()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun initView() {
+        binding.email = Global.user.email
+        binding.rvAccount.apply {
+            adapter = AccountNodeAdapter {
+                if (it.serviceid == Global.user.serviceId) {
+                    return@AccountNodeAdapter
+                }
+                Global.user.serviceId = it.serviceid
+                stopClashService()
+            }
+            layoutManager = LinearLayoutManager(this@AccountActivity)
+        }
+
+
+        val api = Api.createReq(UserApi::class.java)
+        api.userService(Global.user.userid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    if (it.isOk) {
+                        GlobalScope.launch(Dispatchers.Main) {
+                            for (datum in it.data) {
+                                datum.selected = Global.user.serviceId == datum.serviceid
+                            }
+                            adapter.updateSource(it.data)
+                        }
+                    }
+                }, {
+                    Log.e("account", it)
+                }
+            )
     }
 
 
     fun logout() {
-
+        val store = UiStore(this)
+        store.userInfo = ""
+        Global.setUser(UserInfo())
+        stopClashService()
+        startActivity(LoginActivity::class.intent)
+        finish()
     }
 }

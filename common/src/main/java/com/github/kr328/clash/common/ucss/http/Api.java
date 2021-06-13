@@ -1,10 +1,13 @@
 package com.github.kr328.clash.common.ucss.http;
 
+import com.github.kr328.clash.common.Global;
 import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -32,6 +35,7 @@ public class Api {
         int timeout = 20;
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(mTokenInterceptor);
         builder.addInterceptor(interceptor)
                 .readTimeout(timeout, TimeUnit.SECONDS)
                 .writeTimeout(timeout, TimeUnit.SECONDS);
@@ -50,5 +54,11 @@ public class Api {
         return retrofitAPI.retrofit.create(clazz);
     }
 
-
+    Interceptor mTokenInterceptor = chain -> {
+        Request originalRequest = chain.request();
+        Request authorised = originalRequest.newBuilder()
+                .header("Authorization", Global.INSTANCE.getUser().token)
+                .build();
+        return chain.proceed(authorised);
+    };
 }

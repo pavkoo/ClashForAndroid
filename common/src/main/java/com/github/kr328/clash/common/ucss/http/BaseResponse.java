@@ -9,6 +9,6 @@ public class BaseResponse<T> {
     public String message;
 
     public boolean isOk() {
-        return status == true;
+        return status && data!=null;
     }
 }

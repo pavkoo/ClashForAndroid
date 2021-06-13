@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="120dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
     <TextView
         android:id="@+id/v_check"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
         android:background="@drawable/radio"
-        android:checked="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,13 +30,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/text_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:lines="1"
+        android:text="@string/dueDate"
+        android:textColor="#adadad"
+        app:layout_constraintStart_toStartOf="@+id/text_total"
+        app:layout_constraintTop_toBottomOf="@+id/text_total" />
+
+    <TextView
         android:id="@+id/text_dual"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:lines="1"
         android:textColor="#adadad"
-        app:layout_constraintStart_toStartOf="@+id/text_total"
+        app:layout_constraintStart_toEndOf="@+id/text_info"
         app:layout_constraintTop_toBottomOf="@+id/text_total" />
 
 
@@ -42,26 +55,32 @@
         android:id="@+id/pb"
         style="@style/update_progress_horizontal"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:max="100"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/text_total"
-        app:layout_constraintTop_toBottomOf="@+id/text_dual" />
+        app:layout_constraintTop_toBottomOf="@+id/text_info" />
 
     <TextView
         android:id="@+id/tv_pb"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="30dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:lines="1"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/text_total"
-        app:layout_constraintTop_toBottomOf="@+id/text_dual" />
+        app:layout_constraintTop_toBottomOf="@+id/text_info" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_pb" />
 </androidx.constraintlayout.widget.ConstraintLayout>

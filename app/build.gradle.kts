@@ -12,7 +12,7 @@ android {
     flavorDimensions(buildFlavor)
 
     defaultConfig {
-        applicationId = "com.github.kr328.clash"
+        applicationId = "com.ucss.android"
 
         minSdk = buildMinSdkVersion
         targetSdk = buildTargetSdkVersion

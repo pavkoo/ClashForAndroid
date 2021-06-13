@@ -1,6 +1,7 @@
 package com.github.kr328.clash.ucss;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -17,9 +18,15 @@ import com.github.kr328.clash.R;
 import com.github.kr328.clash.common.Global;
 import com.github.kr328.clash.common.ucss.http.Api;
 import com.github.kr328.clash.common.ucss.http.BaseResponse;
+import com.github.kr328.clash.common.ucss.http.Subscription;
+import com.github.kr328.clash.common.ucss.http.TradeService;
+import com.github.kr328.clash.common.ucss.http.UserApi;
 import com.github.kr328.clash.common.ucss.http.UserInfo;
-import com.github.kr328.clash.common.ucss.http.UserService;
 import com.github.kr328.clash.common.util.StringUtil;
+import com.github.kr328.clash.design.store.UiStore;
+import com.google.gson.Gson;
+
+import java.util.List;
 
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
@@ -61,10 +68,17 @@ public class LoginActivity extends AppCompatActivity {
             }
             login(name, password);
         });
+
+        findViewById(R.id.tv_forget).setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://my.undercurrentss.net/index.php?rp=/password/reset/begin"));
+            startActivity(browserIntent);
+        });
+        findViewById(R.id.tv_sign).setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://my.undercurrentss.net/cart.php"));
+            startActivity(browserIntent);
+        });
         tvName.setText("hello@undercurrentss.com");
         tvPass.setText("123234!");
-
-        start();
     }
 
     private void setView(boolean login) {
@@ -80,26 +94,45 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(String name, final String password) {
         setView(true);
-        UserService api = Api.createReq(UserService.class);
-        api.login(StringUtil.base64(name + ":" + password))
+        Global.INSTANCE.getUser().token = StringUtil.base64(name + ":" + password);
+        Global.INSTANCE.getUser().email = name;
+        UserApi api = Api.createReq(UserApi.class);
+        api.login()
                 .subscribeOn(Schedulers.io())
-                .flatMap((Function<BaseResponse<UserInfo>, ObservableSource<BaseResponse<UserInfo>>>) userInfoBaseResponse -> {
+                .flatMap((Function<BaseResponse<UserInfo>, ObservableSource<BaseResponse<List<TradeService>>>>) userInfoBaseResponse -> {
                     if (!userInfoBaseResponse.isOk()) {
                         throw new RuntimeException(userInfoBaseResponse.message);
                     }
-                    return api.userInfo(userInfoBaseResponse.data.userId);
+                    Global.INSTANCE.getUser().userid = userInfoBaseResponse.data.userid;
+                    return api.userService(userInfoBaseResponse.data.userid);
+                })
+                .flatMap((Function<BaseResponse<List<TradeService>>, ObservableSource<BaseResponse<Subscription>>>) listBaseResponse -> {
+                    if (listBaseResponse.isOk() && listBaseResponse.data.size() > 0) {
+                        Global.INSTANCE.getUser().serviceId = listBaseResponse.data.get(0).serviceid;
+                    } else {
+                        throw new RuntimeException("No valid service");
+                    }
+                    return api.subscription(Global.INSTANCE.getUser().serviceId);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseResponse<UserInfo>>() {
+                .subscribe(new Observer<BaseResponse<Subscription>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull BaseResponse<UserInfo> userInfoBaseResponse) {
+                    public void onNext(@NonNull BaseResponse<Subscription> res) {
                         setView(false);
-                        start();
+                        if (res.isOk()) {
+                            UiStore store = new UiStore(LoginActivity.this);
+                            Global.INSTANCE.getUser().subUri = res.data.url;
+                            Gson gson = new Gson();
+                            store.setUserInfo(gson.toJson(Global.INSTANCE.getUser()));
+                            start();
+                        } else {
+                            throw new RuntimeException(res.message);
+                        }
                     }
 
                     @Override
@@ -110,7 +143,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-
                     }
                 });
     }

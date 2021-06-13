@@ -1,16 +1,19 @@
 package com.github.kr328.clash
 
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import com.github.kr328.clash.common.util.intent
 import com.github.kr328.clash.common.util.ticker
 import com.github.kr328.clash.core.model.Proxy
 import com.github.kr328.clash.design.HomeDesign
 import com.github.kr328.clash.design.ProxyDesign
 import com.github.kr328.clash.design.ui.ToastDuration
+import com.github.kr328.clash.design.util.openInBrowser
 import com.github.kr328.clash.design.util.resolveThemedColor
 import com.github.kr328.clash.design.util.resolveThemedResourceId
 import com.github.kr328.clash.store.TipsStore
 import com.github.kr328.clash.ucss.AccountActivity
+import com.github.kr328.clash.ucss.LoginActivity
 import com.github.kr328.clash.util.startClashService
 import com.github.kr328.clash.util.stopClashService
 import com.github.kr328.clash.util.withClash
@@ -27,10 +30,6 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         val design = HomeDesign(this)
 
         setContentDesign(design)
-        window.navigationBarColor = resources.getColor(android.R.color.black)
-        launch(Dispatchers.IO) {
-            showUpdatedTips(design)
-        }
 
         design.fetch()
 
@@ -77,6 +76,10 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                             design.showAbout(queryAppVersionName())
                         HomeDesign.Request.OpenDrawer ->
                             design.openDrawer()
+                        HomeDesign.Request.OpenSupport -> {
+                            val uri = "https://my.undercurrentss.net/submitticket.php".toUri()
+                            uri.openInBrowser(this@HomeActivity)
+                        }
                         HomeDesign.Request.FetchProxy ->
                             fetchProxy()
                         HomeDesign.Request.Ping ->
@@ -122,20 +125,6 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         }
     }
 
-    private suspend fun showUpdatedTips(design: HomeDesign) {
-        val tips = TipsStore(this)
-
-        if (tips.primaryVersion != TipsStore.CURRENT_PRIMARY_VERSION) {
-            tips.primaryVersion = TipsStore.CURRENT_PRIMARY_VERSION
-
-            val pkg = packageManager.getPackageInfo(packageName, 0)
-
-            if (pkg.firstInstallTime != pkg.lastUpdateTime) {
-                design.showUpdatedTips()
-            }
-        }
-    }
-
     private suspend fun HomeDesign.fetch() {
         setClashRunning(clashRunning)
 
@@ -165,10 +154,11 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         val active = withProfile { queryActive() }
 
         if (active == null || !active.imported) {
-            showToast(R.string.no_profile_selected, ToastDuration.Long) {
-                setAction(R.string.profiles) {
-                    startActivity(ProfilesActivity::class.intent)
-                }
+            setClashRunning(false)
+            showToast(R.string.noService, ToastDuration.Long) {
+//                setAction(R.string.profiles) {
+//                    startActivity(LoginActivity::class.intent)
+//                }
             }
 
             return

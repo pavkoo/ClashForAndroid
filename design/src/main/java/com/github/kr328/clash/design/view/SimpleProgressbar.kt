@@ -63,7 +63,7 @@ class SimpleProgressbar @JvmOverloads constructor(
         mPaint.isDither = true
         mPaint.strokeCap = Paint.Cap.ROUND
         mPaint.strokeWidth = STROKE.toFloat()
-        mPaint.color = Color.parseColor("#A6A6A6")
+        mPaint.color = Color.parseColor("#CCCCCC")
         rectF = RectF()
         mAnim = AnimatorSet()
         var alpha = ObjectAnimator.ofFloat(this, "alpha", 0.3f, 1f)
