@@ -7,7 +7,10 @@ import com.github.kr328.clash.core.model.Proxy
 import com.github.kr328.clash.design.HomeDesign
 import com.github.kr328.clash.design.ProxyDesign
 import com.github.kr328.clash.design.ui.ToastDuration
+import com.github.kr328.clash.design.util.resolveThemedColor
+import com.github.kr328.clash.design.util.resolveThemedResourceId
 import com.github.kr328.clash.store.TipsStore
+import com.github.kr328.clash.ucss.AccountActivity
 import com.github.kr328.clash.util.startClashService
 import com.github.kr328.clash.util.stopClashService
 import com.github.kr328.clash.util.withClash
@@ -16,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
-import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
@@ -25,7 +27,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         val design = HomeDesign(this)
 
         setContentDesign(design)
-
+        window.navigationBarColor = resources.getColor(android.R.color.black)
         launch(Dispatchers.IO) {
             showUpdatedTips(design)
         }
@@ -69,6 +71,8 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                             startActivity(WifiActivity::class.intent)
                         HomeDesign.Request.OpenUCAbout ->
                             startActivity(AboutUCSSActivity::class.intent)
+                        HomeDesign.Request.OpenAccount ->
+                            startActivity(AccountActivity::class.intent)
                         HomeDesign.Request.OpenAbout ->
                             design.showAbout(queryAppVersionName())
                         HomeDesign.Request.OpenDrawer ->

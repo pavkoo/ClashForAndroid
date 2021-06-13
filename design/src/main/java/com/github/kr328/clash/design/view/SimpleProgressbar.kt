@@ -29,14 +29,14 @@ class SimpleProgressbar @JvmOverloads constructor(
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val width = MeasureSpec.getSize(widthMeasureSpec)
         val height = MeasureSpec.getSize(heightMeasureSpec)
-        val realWidth = Math.min(width, height)
+        val realWidth = width.coerceAtMost(height)
         rectF[STROKE/2.toFloat(), STROKE/2.toFloat(), (realWidth - STROKE/2).toFloat()] =
             (realWidth - STROKE/2).toFloat()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawArc(rectF, 0f, 45f, false, mPaint)
+        canvas.drawArc(rectF, 270f, 45f, false, mPaint)
     }
 
     fun setRunning(value: Boolean) {

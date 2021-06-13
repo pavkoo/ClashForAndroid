@@ -48,9 +48,12 @@ dependencies {
 
     api("com.squareup.retrofit2:retrofit:2.9.0")
     api("com.squareup.retrofit2:converter-gson:2.9.0")
+    api("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
     api("com.google.code.gson:gson:2.8.6")
     api("com.squareup.okhttp3:okhttp:3.14.9")
     api("com.squareup.okhttp3:logging-interceptor:3.14.9")
+    api("io.reactivex.rxjava2:rxjava:2.2.10")
+    api("io.reactivex.rxjava2:rxandroid:2.1.1")
 }
 
 repositories {

@@ -42,6 +42,8 @@
         <activity
             android:name=".ucss.LoginActivity"
             android:theme="@style/FullScreen" />
+        <activity
+            android:name=".ucss.AccountActivity" />
 
         <meta-data
             android:name="releaseName"

@@ -5,6 +5,7 @@
     <string name="forget">Forget Password?</string>
     <string name="signUp">Sign Up</string>
     <string name="login">LOGIN</string>
+    <string name="loginOut">LOGOUT</string>
     <string name="connected">CONNECTED</string>
     <string name="connecting">CONNECTING...</string>
     <string name="disconnected">DISCONNECTED</string>
@@ -27,4 +28,8 @@
     <string name="wifiEnable">Allow Wi-Fi Access</string>
     <string name="port">Port Number</string>
     <string name="ip">IP Address</string>
+    <string name="emptyName">Empty Name</string>
+    <string name="emptyPass">Empty Password</string>
+
+
 </resources>

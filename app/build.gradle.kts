@@ -111,7 +111,6 @@ android {
 }
 
 dependencies {
-    val premiumImplementation by configurations
 
     api(project(":core"))
     api(project(":service"))
@@ -122,9 +121,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
 
-    premiumImplementation("com.microsoft.appcenter:appcenter-analytics:$appcenterVersion")
-    premiumImplementation("com.microsoft.appcenter:appcenter-crashes:$appcenterVersion")
-
     implementation(kotlin("stdlib-jdk7"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
     implementation("androidx.core:core-ktx:$coreVersion")
@@ -134,6 +130,9 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:$recyclerviewVersion")
     implementation("androidx.fragment:fragment:$fragmentVersion")
     implementation("com.google.android.material:material:$materialVersion")
+
+    api("io.reactivex.rxjava2:rxandroid:2.1.1")
+    api("io.reactivex.rxjava2:rxjava:2.2.10")
 }
 
 task("cleanRelease", type = Delete::class) {

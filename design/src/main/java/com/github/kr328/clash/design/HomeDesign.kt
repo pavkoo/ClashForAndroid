@@ -3,7 +3,9 @@ package com.github.kr328.clash.design
 import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kr328.clash.core.model.ProxyGroup
 import com.github.kr328.clash.core.model.TunnelState
 import com.github.kr328.clash.core.util.trafficTotal
@@ -146,8 +148,9 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
                 currentNode = it
                 request(Request.Select)
             }
-            layoutManager = GridLayoutManager(context, 1)
+            layoutManager = LinearLayoutManager(context)
             clipToPadding = false
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }
 

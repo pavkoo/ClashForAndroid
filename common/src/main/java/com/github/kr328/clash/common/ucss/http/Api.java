@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -14,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class Api {
     private static String TAG = Api.class.getSimpleName();
-    private static final String BASE_URL = "";
+    private static final String BASE_URL = "https://ucss.moe";
     /**
      * 单例模式请求
      */
@@ -29,7 +30,9 @@ public class Api {
     private Api() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         int timeout = 20;
-        builder.addInterceptor(new HttpLoggingInterceptor())
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(interceptor)
                 .readTimeout(timeout, TimeUnit.SECONDS)
                 .writeTimeout(timeout, TimeUnit.SECONDS);
         OkHttpClient client = builder.build();
@@ -37,6 +40,7 @@ public class Api {
         // 带有拦截器的请求客户端
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .client(client)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .build();
     }
@@ -45,4 +49,6 @@ public class Api {
     public static <T> T createReq(final Class<T> clazz) {
         return retrofitAPI.retrofit.create(clazz);
     }
+
+
 }
