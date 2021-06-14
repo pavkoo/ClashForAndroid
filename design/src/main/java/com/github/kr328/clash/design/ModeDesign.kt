@@ -39,7 +39,7 @@ class ModeDesign(
 
     suspend fun showModeSwitchTips() {
         withContext(Dispatchers.Main) {
-            Toast.makeText(context, R.string.mode_switch_tips, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, R.string.mode_switch, Toast.LENGTH_LONG).show()
         }
     }
 

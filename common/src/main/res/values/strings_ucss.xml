@@ -32,6 +32,7 @@
     <string name="emptyPass">Empty Password</string>
     <string name="dueDate">Due Date: </string>
     <string name="noService">No Service valid</string>
+    <string name="mode_switch">Valid only for current session</string>
 
 
 </resources>

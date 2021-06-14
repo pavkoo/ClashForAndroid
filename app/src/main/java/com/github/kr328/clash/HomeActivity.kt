@@ -2,6 +2,7 @@ package com.github.kr328.clash
 
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
+import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.common.util.intent
 import com.github.kr328.clash.common.util.ticker
 import com.github.kr328.clash.core.model.Proxy
@@ -11,6 +12,7 @@ import com.github.kr328.clash.design.ui.ToastDuration
 import com.github.kr328.clash.design.util.openInBrowser
 import com.github.kr328.clash.design.util.resolveThemedColor
 import com.github.kr328.clash.design.util.resolveThemedResourceId
+import com.github.kr328.clash.service.model.Profile
 import com.github.kr328.clash.store.TipsStore
 import com.github.kr328.clash.ucss.AccountActivity
 import com.github.kr328.clash.ucss.LoginActivity
@@ -153,17 +155,52 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         setConState(HomeDesign.ConState.ING)
         val active = withProfile { queryActive() }
 
-        if (active == null || !active.imported) {
-            setClashRunning(false)
-            showToast(R.string.noService, ToastDuration.Long) {
+        if (active == null || !active.imported || active.name != Global.user.serviceId.toString()) {
+//            showToast(R.string.noService, ToastDuration.Long) {
 //                setAction(R.string.profiles) {
 //                    startActivity(LoginActivity::class.intent)
 //                }
-            }
-
+//            }
+            fetchOrCreateProfile()
             return
         }
 
+        realStart()
+    }
+
+    private suspend fun fetchOrCreateProfile() {
+        val list = withProfile {
+            queryAll()
+        }
+        //更新
+        for (profile in list) {
+            if (profile.name == Global.user.serviceId.toString()) {
+                withProfile {
+                    update(profile.uuid)
+                    setActive(profile)
+                }
+                realStart()
+                return
+            }
+        }
+
+        //创建
+        val uuid = withProfile { create(Profile.Type.Url, Global.user.serviceId.toString()) }
+        val original = withProfile { queryByUUID(uuid) } ?: return
+
+        val profile = original.copy(source = "https://feedneo.com/files/b4aB7wjxan/clash.yml")
+
+        withProfile {
+            patch(profile.uuid, profile.name, profile.source, profile.interval)
+            commit(profile.uuid)
+            release(uuid)
+            setActive(profile)
+        }
+
+        realStart()
+    }
+
+    private suspend fun realStart() {
         val vpnRequest = startClashService()
 
         try {
