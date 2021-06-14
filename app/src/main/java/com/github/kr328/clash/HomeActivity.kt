@@ -5,6 +5,8 @@ import androidx.core.net.toUri
 import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.common.util.intent
 import com.github.kr328.clash.common.util.ticker
+import com.github.kr328.clash.core.bridge.ClashException
+import com.github.kr328.clash.core.model.FetchStatus
 import com.github.kr328.clash.core.model.Proxy
 import com.github.kr328.clash.design.HomeDesign
 import com.github.kr328.clash.design.ProxyDesign
@@ -12,6 +14,7 @@ import com.github.kr328.clash.design.ui.ToastDuration
 import com.github.kr328.clash.design.util.openInBrowser
 import com.github.kr328.clash.design.util.resolveThemedColor
 import com.github.kr328.clash.design.util.resolveThemedResourceId
+import com.github.kr328.clash.design.util.showExceptionToast
 import com.github.kr328.clash.service.model.Profile
 import com.github.kr328.clash.store.TipsStore
 import com.github.kr328.clash.ucss.AccountActivity
@@ -20,11 +23,8 @@ import com.github.kr328.clash.util.startClashService
 import com.github.kr328.clash.util.stopClashService
 import com.github.kr328.clash.util.withClash
 import com.github.kr328.clash.util.withProfile
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.selects.select
-import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 class HomeActivity : BaseActivity<HomeDesign>() {
@@ -155,7 +155,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         setConState(HomeDesign.ConState.ING)
         val active = withProfile { queryActive() }
 
-        if (active == null || !active.imported || active.name != Global.user.serviceId.toString()) {
+        if (active == null || !active.imported || !active.active || active.name != Global.user.serviceId.toString()) {
 //            showToast(R.string.noService, ToastDuration.Long) {
 //                setAction(R.string.profiles) {
 //                    startActivity(LoginActivity::class.intent)
@@ -176,10 +176,11 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         for (profile in list) {
             if (profile.name == Global.user.serviceId.toString()) {
                 withProfile {
+                    Global.user.currentUuid = profile.uuid
                     update(profile.uuid)
                     setActive(profile)
+                    realStart()
                 }
-                realStart()
                 return
             }
         }
@@ -188,16 +189,60 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         val uuid = withProfile { create(Profile.Type.Url, Global.user.serviceId.toString()) }
         val original = withProfile { queryByUUID(uuid) } ?: return
 
-        val profile = original.copy(source = "https://feedneo.com/files/b4aB7wjxan/clash.yml")
-
-        withProfile {
-            patch(profile.uuid, profile.name, profile.source, profile.interval)
-            commit(profile.uuid)
-            release(uuid)
-            setActive(profile)
+//        val profile = original.copy(source = "https://feedneo.com/files/b4aB7wjxan/clash.yml")
+        val profile = original.copy(source = Global.user.subUri)
+        try {
+            withProfile {
+                patch(profile.uuid, profile.name, profile.source, profile.interval)
+                coroutineScope {
+                    commit(profile.uuid) {
+                        launch {
+                            updateStatus(it)
+                        }
+                    }
+                    release(uuid)
+                    setActive(profile)
+                }
+            }
+        } catch (e: Exception) {
+            design?.setClashRunning(false)
+        } finally {
+            realStart()
         }
+    }
 
-        realStart()
+    private suspend fun updateStatus(status: FetchStatus) {
+        var text: String? = null
+        text = when (status.action) {
+            FetchStatus.Action.FetchConfiguration -> {
+                getString(
+                    com.github.kr328.clash.design.R.string.format_fetching_configuration,
+                    status.args[0]
+                )
+            }
+            FetchStatus.Action.FetchProviders -> {
+                getString(
+                    com.github.kr328.clash.design.R.string.format_fetching_provider,
+                    status.args[0]
+                )
+            }
+            FetchStatus.Action.Verifying -> {
+                getString(com.github.kr328.clash.design.R.string.verifying)
+            }
+        }
+        design?.showToast(text, ToastDuration.Long)
+    }
+
+
+    override fun onStopped(cause: String?) {
+        super.onStopped(cause)
+        if (cause == "No profile selected") {
+            launch {
+                withProfile {
+                    delete(Global.user.currentUuid)
+                }
+            }
+        }
     }
 
     private suspend fun realStart() {

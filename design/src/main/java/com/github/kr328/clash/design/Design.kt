@@ -2,7 +2,9 @@ package com.github.kr328.clash.design
 
 import android.content.Context
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.github.kr328.clash.common.log.Log
 import com.github.kr328.clash.design.ui.Surface
 import com.github.kr328.clash.design.ui.ToastDuration
 import com.github.kr328.clash.design.util.setOnInsertsChangedListener
@@ -33,15 +35,17 @@ abstract class Design<R>(val context: Context) :
         configure: Snackbar.() -> Unit = {}
     ) {
         withContext(Dispatchers.Main) {
-            Snackbar.make(
-                root,
-                message,
-                when (duration) {
-                    ToastDuration.Short -> Snackbar.LENGTH_SHORT
-                    ToastDuration.Long -> Snackbar.LENGTH_LONG
-                    ToastDuration.Indefinite -> Snackbar.LENGTH_INDEFINITE
-                }
-            ).apply(configure).show()
+            Log.i(message.toString(), null)
+            Toast.makeText(root.context, message, Toast.LENGTH_SHORT).show()
+//            Snackbar.make(
+//                root,
+//                message,
+//                when (duration) {
+//                    ToastDuration.Short -> Snackbar.LENGTH_SHORT
+//                    ToastDuration.Long -> Snackbar.LENGTH_LONG
+//                    ToastDuration.Indefinite -> Snackbar.LENGTH_INDEFINITE
+//                }
+//            ).apply(configure).show()
         }
     }
 

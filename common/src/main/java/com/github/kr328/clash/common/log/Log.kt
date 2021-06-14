@@ -1,7 +1,7 @@
 package com.github.kr328.clash.common.log
 
 object Log {
-    private const val TAG = "ClashForAndroid"
+    private const val TAG = "UCSSForAndroid"
 
     fun i(message: String, throwable: Throwable? = null) =
         android.util.Log.i(TAG, message, throwable)

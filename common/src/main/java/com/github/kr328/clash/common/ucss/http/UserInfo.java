@@ -1,5 +1,7 @@
 package com.github.kr328.clash.common.ucss.http;
 
+import java.util.UUID;
+
 /**
  * @author shangji_cd
  */
@@ -9,4 +11,5 @@ public class UserInfo {
     public String token;
     public int serviceId;
     public String subUri;
+    public UUID currentUuid;
 }
