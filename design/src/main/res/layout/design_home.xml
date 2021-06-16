@@ -99,7 +99,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
-                            app:layout_constraintGuide_percent="0.6" />
+                            app:layout_constraintGuide_percent="0.64" />
                         <com.github.kr328.clash.common.ucss.ui.SquareFrameLayout
                             android:id="@+id/center"
                             android:layout_width="0dp"
@@ -269,6 +269,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="@dimen/main_card_margin_vertical"
+                        android:visibility="gone"
                         android:onClick="@{() -> self.request(Request.OpenProfiles)}"
                         app:icon="@drawable/ic_baseline_view_list"
                         app:subtext="@{profileName != null ? @string/format_profile_activated(profileName) : @string/not_selected}"
