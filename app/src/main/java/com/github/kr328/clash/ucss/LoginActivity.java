@@ -3,9 +3,7 @@ package com.github.kr328.clash.ucss;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +22,7 @@ import com.github.kr328.clash.common.ucss.http.UserApi;
 import com.github.kr328.clash.common.ucss.http.UserInfo;
 import com.github.kr328.clash.common.util.StringUtil;
 import com.github.kr328.clash.design.store.UiStore;
+import com.github.kr328.clash.design.view.UcssProgressbar;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -43,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText tvPass;
     private TextView tvError;
     private TextView btnLogin;
-    private ProgressBar progressBar;
+    private UcssProgressbar progressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,18 +76,18 @@ public class LoginActivity extends AppCompatActivity {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://my.undercurrentss.net/cart.php"));
             startActivity(browserIntent);
         });
-        tvName.setText("hello@undercurrentss.com");
-        tvPass.setText("123234!");
+//        tvName.setText("hello@undercurrentss.com");
+//        tvPass.setText("123234!");
     }
 
     private void setView(boolean login) {
         if (login) {
             tvError.setText("");
             btnLogin.setText("");
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setStart(true);
         } else {
             btnLogin.setText(R.string.login);
-            progressBar.setVisibility(View.GONE);
+            progressBar.setStart(false);
         }
     }
 

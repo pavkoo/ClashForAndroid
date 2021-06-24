@@ -187,10 +187,10 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
     private fun updateUrlTestButtonStatus() {
         if (urlTesting) {
             binding.tvPing.visibility = View.GONE
-            binding.urlTestProgressView.visibility = View.VISIBLE
+            binding.urlTestProgressView.setStart(true)
         } else {
             binding.tvPing.visibility = View.VISIBLE
-            binding.urlTestProgressView.visibility = View.GONE
+            binding.urlTestProgressView.setStart(false)
         }
     }
 

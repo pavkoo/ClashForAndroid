@@ -151,12 +151,12 @@
                     <com.github.kr328.clash.design.view.LargeActionCard
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="24dp"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="-30dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="-24dp"
                         app:cardBackgroundColor="#525252"
-                        app:cardCornerRadius="24dp">
+                        app:cardCornerRadius="10dp">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -210,24 +210,22 @@
                                         android:onClick="@{() -> self.requestUrlTesting()}"
                                         android:paddingLeft="16dp"
                                         android:paddingTop="4dp"
+                                        android:gravity="center"
                                         android:paddingRight="16dp"
                                         android:paddingBottom="4dp"
                                         android:text="@string/ping"
                                         android:textColor="@android:color/white" />
-                                    <ProgressBar
+                                    <com.github.kr328.clash.design.view.UcssProgressbar
                                         android:id="@+id/url_test_progress_view"
                                         android:layout_width="@dimen/item_tailing_component_size"
                                         android:layout_height="@dimen/item_tailing_component_size"
-                                        android:layout_gravity="right|center_vertical"
-                                        android:indeterminate="true"
-                                        android:indeterminateTint="@android:color/white"
-                                        android:visibility="gone" />
+                                        android:layout_gravity="right|center_vertical"/>
                                 </FrameLayout>
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/rv_proxy"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingBottom="30dp" />
+                                    android:paddingBottom="24dp" />
                             </LinearLayout>
                         </LinearLayout>
                     </com.github.kr328.clash.design.view.LargeActionCard>
@@ -286,7 +284,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="70dp"
+                        android:layout_marginLeft="24dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="24dp"
                         android:text="@string/ucssSetting"
@@ -326,7 +324,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="70dp"
+                        android:layout_marginLeft="24dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="24dp"
                         android:text="@string/ucssHELP"

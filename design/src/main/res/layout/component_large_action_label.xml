@@ -10,9 +10,10 @@
 
         <View
             android:id="@+id/icon_view"
-            android:layout_width="@dimen/large_item_header_component_size"
-            android:layout_height="@dimen/large_item_header_component_size"
-            android:layout_marginHorizontal="@dimen/large_item_header_margin_horizontal" />
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:visibility="invisible"
+            android:layout_marginHorizontal="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="loading"
@@ -88,12 +89,11 @@
                         android:layout_margin="16dp" />
                 </LinearLayout>
 
-                <ProgressBar
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                <com.github.kr328.clash.design.view.UcssProgressbar
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:indeterminateTint="@android:color/white"
-                    android:visibility="@{loading?View.VISIBLE:View.GONE}" />
+                    app:start="@{loading}" />
             </FrameLayout>
         </LinearLayout>
 

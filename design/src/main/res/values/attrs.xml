@@ -28,6 +28,9 @@
     <declare-styleable name="SimpleProgressbar">
         <attr name="running" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="UcssProgressbar">
+        <attr name="start" format="boolean" />
+    </declare-styleable>
     <declare-styleable name="LargeActionLabel">
         <attr name="text" />
         <attr name="subtext" />

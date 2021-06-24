@@ -36,7 +36,7 @@ abstract class Design<R>(val context: Context) :
     ) {
         withContext(Dispatchers.Main) {
             Log.i(message.toString(), null)
-            Toast.makeText(root.context, message, Toast.LENGTH_SHORT).show()
+            //Toast.makeText(root.context, message, Toast.LENGTH_SHORT).show()
 //            Snackbar.make(
 //                root,
 //                message,

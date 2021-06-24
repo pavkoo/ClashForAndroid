@@ -1,6 +1,7 @@
 package com.github.kr328.clash.ucss
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -9,6 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kr328.clash.R
 import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.common.Global.user
+import com.github.kr328.clash.common.compat.isAllowForceDarkCompat
+import com.github.kr328.clash.common.compat.isLightNavigationBarCompat
+import com.github.kr328.clash.common.compat.isLightStatusBarsCompat
+import com.github.kr328.clash.common.compat.isSystemBarsTranslucentCompat
 import com.github.kr328.clash.common.log.Log
 import com.github.kr328.clash.common.ucss.http.*
 import com.github.kr328.clash.common.util.intent
@@ -16,6 +21,8 @@ import com.github.kr328.clash.databinding.ActivityAccountBinding
 import com.github.kr328.clash.design.store.UiStore
 import com.github.kr328.clash.design.ui.Surface
 import com.github.kr328.clash.design.util.applyFrom
+import com.github.kr328.clash.design.util.resolveThemedBoolean
+import com.github.kr328.clash.design.util.resolveThemedColor
 import com.github.kr328.clash.design.util.setOnInsertsChangedListener
 import com.github.kr328.clash.util.stopClashService
 import com.google.gson.Gson
@@ -41,6 +48,17 @@ class AccountActivity : AppCompatActivity() {
             }
         }
         theme.applyStyle(R.style.AppThemeDark, true)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.isLightStatusBarsCompat =
+                resolveThemedBoolean(android.R.attr.windowLightStatusBar)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            window.isLightNavigationBarCompat =
+                resolveThemedBoolean(android.R.attr.windowLightNavigationBar)
+        }
+
         binding = DataBindingUtil.setContentView(
             this, R.layout.activity_account
         )

@@ -52,9 +52,8 @@ class LargeActionLabel @JvmOverloads constructor(
             defStyleAttr,
             defStyleRes
         ) {
-            isFocusable = focusable(true)
-            isClickable = clickable(true)
-            background = background() ?: context.selectableItemBackground
+            isFocusable = focusable(false)
+            isClickable = clickable(false)
         }
 
         context.theme.obtainStyledAttributes(

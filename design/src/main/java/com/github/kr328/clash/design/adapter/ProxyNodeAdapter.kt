@@ -16,7 +16,12 @@ class ProxyNodeAdapter(
     var states: List<Proxy> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(ProxyNodeView(parent.context))
+        val view = ProxyNodeView(parent.context)
+        view.layoutParams = RecyclerView.LayoutParams(
+            RecyclerView.LayoutParams.MATCH_PARENT,
+            RecyclerView.LayoutParams.WRAP_CONTENT
+        )
+        return Holder(view)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
