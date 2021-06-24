@@ -70,11 +70,11 @@ android {
         jvmTarget = "1.8"
     }
 
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
-        }
-    }
+//    externalNativeBuild {
+//        cmake {
+//            path = file("src/main/cpp/CMakeLists.txt")
+//        }
+//    }
 }
 
 dependencies {
@@ -126,12 +126,12 @@ task("downloadGeoipDatabase") {
     }
 }
 
-afterEvaluate {
-    val downloadTask = tasks["downloadGeoipDatabase"]
-
-    tasks.forEach {
-        if (it.name.startsWith("externalGolangBuild")) {
-            it.dependsOn(downloadTask)
-        }
-    }
-}
+//afterEvaluate {
+//    val downloadTask = tasks["downloadGeoipDatabase"]
+//
+//    tasks.forEach {
+//        if (it.name.startsWith("externalGolangBuild")) {
+//            it.dependsOn(downloadTask)
+//        }
+//    }
+//}

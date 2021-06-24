@@ -10,7 +10,7 @@ const val buildNdkVersion = "22.1.7171670"
 
 val Project.buildFlavor: String
     get() {
-        return if (project(":core").file("src/main/golang/clash/main.go").exists())
+        return if (project(":core").file("src/main/golang/clash/script/script.go").exists())
             "premium"
         else
             "foss"

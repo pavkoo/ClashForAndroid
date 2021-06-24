@@ -77,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://my.undercurrentss.net/cart.php"));
             startActivity(browserIntent);
         });
-//        tvName.setText("hello@undercurrentss.com");
-//        tvPass.setText("123234!");
+        tvName.setText("hello@undercurrentss.com");
+        tvPass.setText("123234!");
     }
 
     private void setView(boolean login) {
