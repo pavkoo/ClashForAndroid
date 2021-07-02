@@ -268,4 +268,6 @@ class HomeActivity : BaseActivity<HomeDesign>() {
             packageManager.getPackageInfo(packageName, 0).versionName
         }
     }
+
+
 }

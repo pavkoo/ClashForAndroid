@@ -56,6 +56,7 @@ dependencies {
     api(project(":common"))
     api(project(":core"))
     api(project(":service"))
+    implementation("com.github.JessYanCoding:AndroidAutoSize:v1.2.1")
 
     implementation(kotlin("stdlib-jdk7"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")

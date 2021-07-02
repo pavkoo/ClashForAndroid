@@ -36,7 +36,7 @@ class SimpleProgressbar @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawArc(rectF, 270f, 45f, false, mPaint)
+        canvas.drawArc(rectF, 270f, 70f, false, mPaint)
     }
 
     fun setRunning(value: Boolean) {

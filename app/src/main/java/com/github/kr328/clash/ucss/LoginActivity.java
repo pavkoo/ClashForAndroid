@@ -37,7 +37,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author shangji_cd
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
     private EditText tvName;
     private EditText tvPass;
     private TextView tvError;
@@ -76,8 +76,8 @@ public class LoginActivity extends AppCompatActivity {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://my.undercurrentss.net/cart.php"));
             startActivity(browserIntent);
         });
-//        tvName.setText("hello@undercurrentss.com");
-//        tvPass.setText("123234!");
+        tvName.setText("hello@undercurrentss.com");
+        tvPass.setText("123234!");
     }
 
     private void setView(boolean login) {
@@ -156,4 +156,5 @@ public class LoginActivity extends AppCompatActivity {
         LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         finish();
     }
+
 }

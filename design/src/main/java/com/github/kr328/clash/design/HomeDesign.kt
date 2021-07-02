@@ -1,26 +1,26 @@
 package com.github.kr328.clash.design
 
+
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.InsetDrawable
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kr328.clash.core.model.ProxyGroup
 import com.github.kr328.clash.core.model.TunnelState
 import com.github.kr328.clash.core.util.trafficTotal
 import com.github.kr328.clash.design.adapter.ProxyNodeAdapter
-import com.github.kr328.clash.design.adapter.ProxyPageAdapter
 import com.github.kr328.clash.design.databinding.DesignAboutBinding
 import com.github.kr328.clash.design.databinding.DesignHomeBinding
-import com.github.kr328.clash.design.databinding.DesignMainBinding
 import com.github.kr328.clash.design.util.layoutInflater
 import com.github.kr328.clash.design.util.resolveThemedColor
 import com.github.kr328.clash.design.util.root
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlin.math.E
+
 
 class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
 
@@ -150,7 +150,17 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
             }
             layoutManager = LinearLayoutManager(context)
             clipToPadding = false
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            val ATTRS = intArrayOf(android.R.attr.listDivider)
+
+            val a = context.obtainStyledAttributes(ATTRS)
+            val divider: Drawable? = a.getDrawable(0)
+            val inset = resources.getDimensionPixelSize(R.dimen.item_touch_helper_max_drag_scroll_per_frame)
+            val insetDivider = InsetDrawable(divider, inset, 0, inset, 0)
+            a.recycle()
+
+            val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            itemDecoration.setDrawable(insetDivider)
+            addItemDecoration(itemDecoration)
         }
     }
 

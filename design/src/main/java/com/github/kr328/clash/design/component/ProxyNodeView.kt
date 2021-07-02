@@ -76,6 +76,6 @@ class ProxyNodeView @JvmOverloads constructor(
 
     fun setSource(proxy: Proxy?) {
         text = proxy?.name
-        subtext = if (proxy?.delay in 0..Short.MAX_VALUE) proxy?.delay.toString() else ""
+        subtext = if (proxy?.delay in 0..Short.MAX_VALUE) proxy?.delay.toString()+"ms" else ""
     }
 }

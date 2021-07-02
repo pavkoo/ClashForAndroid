@@ -15,7 +15,7 @@ class UcssProgressbar @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-    private var STROKE = dip2px(4f)
+    private var STROKE = dip2px(3f)
     private val bgColor = Color.parseColor("#66ffffff")
     private val mPaint: Paint = Paint()
     private val rectF: RectF

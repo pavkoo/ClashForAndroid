@@ -30,8 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import android.view.WindowManager
-
-
+import me.jessyan.autosize.internal.CustomAdapt
 
 
 abstract class BaseActivity<D : Design<*>> :

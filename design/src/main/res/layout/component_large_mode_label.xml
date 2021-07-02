@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/mode"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textSize="14dp"
                 android:textColor="#909090" />
 
             <TextView
@@ -36,6 +37,7 @@
                 android:layout_marginEnd="4dp"
                 android:text=":"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textSize="14dp"
                 android:textColor="#909090" />
 
             <TextView
@@ -43,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textSize="14dp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </LinearLayout>
