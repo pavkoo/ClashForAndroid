@@ -10,41 +10,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
+        android:layout_marginStart="@dimen/mode_margin"
+        android:layout_marginEnd="@dimen/mode_margin"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingHorizontal="@dimen/logcat_padding_horizontal"
         android:paddingVertical="@dimen/logcat_padding_vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@{message.level.name()}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                android:textColor="?colorControlActivated" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end|center_vertical"
-                android:text="@{I18nKt.format(message.time, context, false, true)}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                android:textColor="?colorControlActivated" />
-        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_text_margin"
-            android:text="@{message.message}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+            android:text="@{@string/logcat_msg(I18nKt.format(message.time, context, false, true),message.level.name(),message.message )}"
+            android:textSize="12dp" />
     </LinearLayout>
 </layout>

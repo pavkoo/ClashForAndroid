@@ -7,6 +7,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kr328.clash.R
+import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.common.ucss.http.TradeService
 import com.github.kr328.clash.core.model.Proxy
 import com.github.kr328.clash.design.util.swapDataSet
@@ -29,8 +30,9 @@ class AccountNodeAdapter(
     var service: List<TradeService> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountHolder {
+        val layoutId = if (Global.isTablet) R.layout.account_item_land else R.layout.account_item
         return AccountHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.account_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
         )
     }
 

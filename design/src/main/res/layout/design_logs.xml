@@ -59,30 +59,20 @@
             <com.github.kr328.clash.design.view.ActionLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/mode_margin"
+                android:layout_marginEnd="@dimen/mode_margin"
                 android:onClick="@{() -> self.requests.offer(Request.StartLogcat.INSTANCE)}"
                 app:icon="@drawable/ic_baseline_adb"
                 app:subtext="@string/tap_to_start"
                 app:text="@string/clash_logcat" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?attr/colorControlHighlight" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/item_padding_vertical"
-                android:paddingStart="@{@dimen/item_header_component_size + @dimen/item_header_margin * 2}"
-                android:paddingEnd="@dimen/item_tailing_margin"
-                android:text="@string/history"
-                android:textColor="?attr/colorControlActivated" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
+                android:layout_marginStart="@dimen/mode_margin"
+                android:layout_marginEnd="@dimen/mode_margin"
                 android:paddingBottom="@{self.surface.insets.bottom}" />
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

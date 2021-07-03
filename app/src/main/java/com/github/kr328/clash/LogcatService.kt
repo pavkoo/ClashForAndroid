@@ -133,7 +133,7 @@ class LogcatService : Service(), CoroutineScope by CoroutineScope(Dispatchers.De
             .createNotificationChannel(
                 NotificationChannel(
                     CHANNEL_ID,
-                    getString(R.string.clash_logcat),
+                    getString(R.string.logcat_s),
                     NotificationManager.IMPORTANCE_DEFAULT
                 )
             )
@@ -144,7 +144,7 @@ class LogcatService : Service(), CoroutineScope by CoroutineScope(Dispatchers.De
             .Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_logo_service)
             .setColor(getColorCompat(R.color.color_clash_light))
-            .setContentTitle(getString(R.string.clash_logcat))
+            .setContentTitle(getString(R.string.logcat_s))
             .setContentText(getString(R.string.running))
             .setContentIntent(
                 PendingIntent.getActivity(
@@ -161,7 +161,7 @@ class LogcatService : Service(), CoroutineScope by CoroutineScope(Dispatchers.De
     }
 
     companion object {
-        private const val CHANNEL_ID = "clash_logcat_channel"
+        private const val CHANNEL_ID = "ucss_logcat_channel"
         private const val CACHE_CAPACITY = 128
 
         var running: Boolean = false

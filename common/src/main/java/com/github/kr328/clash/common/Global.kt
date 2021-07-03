@@ -12,8 +12,13 @@ object Global : CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
     val user: UserInfo
         get() = user_
+
+    val isTablet: Boolean
+        get() = isTablet_
+
     private lateinit var application_: Application
     private lateinit var user_: UserInfo
+    private var isTablet_: Boolean = false
 
     fun init(application: Application) {
         this.application_ = application
@@ -26,5 +31,9 @@ object Global : CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
     fun destroy() {
         cancel()
+    }
+
+    fun setTablet(value: Boolean) {
+        this.isTablet_ = value
     }
 }

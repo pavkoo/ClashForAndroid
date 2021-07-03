@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import com.github.kr328.clash.R
 import java.io.File
 import java.util.zip.ZipFile
 
@@ -75,4 +76,8 @@ fun Context.verifyApk(): Boolean {
     } catch (e: Exception) {
         false
     }
+}
+
+fun Context.isTablet(): Boolean {
+    return resources.getBoolean(R.bool.isTablet)
 }

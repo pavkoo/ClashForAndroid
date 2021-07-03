@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="slide_bar_width">568dp</dimen>
+    <dimen name="mode_margin">110dp</dimen>
+    <dimen name="mode_line_margin_left">162dp</dimen>
+    <dimen name="mode_line_margin_right">110dp</dimen>
+    <dimen name="mode_margin_top">42dp</dimen>
+
+</resources>

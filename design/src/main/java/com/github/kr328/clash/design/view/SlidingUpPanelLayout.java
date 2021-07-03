@@ -22,6 +22,7 @@ import android.view.animation.Interpolator;
 import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ViewCompat;
 
+import com.github.kr328.clash.common.Global;
 import com.github.kr328.clash.design.R;
 
 import java.util.List;
@@ -316,6 +317,10 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 }
                 ta.recycle();
             }
+        }
+
+        if (Global.INSTANCE.isTablet()) {
+            mAnchorPoint = 0.8f;
         }
 
         final float density = context.getResources().getDisplayMetrics().density;

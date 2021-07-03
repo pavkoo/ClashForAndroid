@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="110dp">
+    <TextView
+        android:id="@+id/v_check"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/radio_mode"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_total"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:lines="1"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/v_check"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:lines="1"
+        android:text="@string/dueDate"
+        android:textColor="#adadad"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_dual"
+        app:layout_constraintEnd_toStartOf="@+id/text_dual"
+        app:layout_constraintTop_toTopOf="@+id/text_dual" />
+
+    <TextView
+        android:id="@+id/text_dual"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:textColor="#adadad"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_total"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_total" />
+
+
+    <ProgressBar
+        android:id="@+id/pb"
+        style="@style/update_progress_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="12dp"
+        android:max="100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_total"
+        app:layout_constraintTop_toBottomOf="@+id/text_info" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:lines="1"
+        android:orientation="horizontal"
+        android:text="asdfasfdasdf"
+        android:textColor="@android:color/white"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_total"
+        app:layout_constraintTop_toBottomOf="@+id/text_info">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:text="@string/remain"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
+        <TextView
+            android:id="@+id/tv_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:textColor="@android:color/white"
+            android:textSize="12dp"
+            android:textStyle="bold|italic" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginStart="46dp"
+        android:background="@color/divider"
+        app:layout_constraintTop_toTopOf="parent" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginStart="46dp"
+        android:background="@color/divider"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
