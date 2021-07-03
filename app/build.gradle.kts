@@ -40,8 +40,7 @@ android {
     productFlavors {
         create("foss") {
             dimension = "foss"
-            versionNameSuffix = ".beta"
-            applicationIdSuffix = ".beta"
+            applicationIdSuffix = ".pro"
         }
         create("premium") {
             dimension = "premium"

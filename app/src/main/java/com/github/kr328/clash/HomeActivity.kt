@@ -1,5 +1,6 @@
 package com.github.kr328.clash
 
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import com.github.kr328.clash.common.Global

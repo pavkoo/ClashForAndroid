@@ -68,7 +68,7 @@ abstract class BaseActivity<D : Design<*>> :
     private var defer: suspend () -> Unit = {}
     private var deferRunning = false
     private val nextRequestKey = AtomicInteger(0)
-    private var dayNight: DayNight = DayNight.Day
+    private var dayNight: DayNight = DayNight.Night
 
     protected abstract suspend fun main()
 
@@ -103,7 +103,9 @@ abstract class BaseActivity<D : Design<*>> :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         applyDayNight()
 
         launch {

@@ -164,6 +164,7 @@
 
     <style name="AppThemeDark" parent="AppThemeDarkBase">
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/color_system_ui_overlay</item>
     </style>
+
 </resources>
