@@ -13,6 +13,6 @@
         <!--进度条的最小高度-->
         <item name="android:minHeight">17dp</item>
         <!--进度条的最大高度-->
-        <item name="android:maxHeight">17dp</item>
+        <item name="android:maxHeight">21dp</item>
     </style>
 </resources>

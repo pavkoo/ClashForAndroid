@@ -37,22 +37,20 @@ class ModeDesign(
 
     override val root: View = binding.root
 
-    suspend fun showModeSwitchTips() {
-        withContext(Dispatchers.Main) {
-            Toast.makeText(context, R.string.mode_switch, Toast.LENGTH_LONG).show()
-        }
-    }
-
     init {
         binding.self = this
         binding.activityBarLayout.applyFrom(context)
 
         binding.check = overrideMode == TunnelState.Mode.Global
+        binding.ivGlobal.isSelected = binding.check
+        binding.ivSmart.isSelected = !binding.check
     }
 
 
     fun toggle() {
         binding.check = !binding.check
+        binding.ivGlobal.isSelected = binding.check
+        binding.ivSmart.isSelected = !binding.check
         if (binding.check) {
             requests.trySend(Request.PatchMode(TunnelState.Mode.Global))
         } else {

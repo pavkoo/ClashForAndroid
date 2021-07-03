@@ -4,7 +4,7 @@
     <item android:id="@android:id/background">
         <shape>
             <!--进度条的圆角-->
-            <corners android:radius="8dip" />
+            <corners android:radius="4dip" />
             <!--未加载的进度区域颜色-->
             <solid android:color="#A5ABAD" />
         </shape>
@@ -14,7 +14,7 @@
         <clip>
             <shape>
                 <!--进度条的圆角-->
-                <corners android:radius="8dip" />
+                <corners android:radius="4dip" />
                 <!--已经加载完的进度的颜色-->
                 <solid android:color="@color/color_main" />
             </shape>

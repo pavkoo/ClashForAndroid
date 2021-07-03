@@ -20,7 +20,7 @@
     <string name="ucssHELP">HELP</string>
     <string name="wifi">Wi-Fi Access</string>
     <string name="account">Account</string>
-    <string name="support">Contract Support</string>
+    <string name="support">Contact Support</string>
     <string name="aboutUcss">About UCSS</string>
     <string name="copyright">Copyright © 2017-2021 UCSS. All rights reserved.</string>
     <string name="privacy">Privacy policy</string>
@@ -30,9 +30,10 @@
     <string name="ip">IP Address</string>
     <string name="emptyName">Empty Name</string>
     <string name="emptyPass">Empty Password</string>
-    <string name="dueDate">Due Date: </string>
+    <string name="dueDate">Due Date : </string>
     <string name="noService">No Service valid</string>
     <string name="mode_switch">Valid only for current session</string>
+    <string name="remain"><i>Remaining Traffic : </i></string>
 
 
 </resources>

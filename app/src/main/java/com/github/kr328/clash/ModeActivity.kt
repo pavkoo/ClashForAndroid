@@ -9,7 +9,7 @@ import kotlinx.coroutines.selects.select
 
 class ModeActivity : BaseActivity<ModeDesign>() {
     override suspend fun main() {
-        val mode = withClash { queryOverride(Clash.OverrideSlot.Session).mode }
+        val mode = withClash { queryOverride(Clash.OverrideSlot.Persist).mode }
 
         val design = ModeDesign(
             this,
@@ -24,13 +24,12 @@ class ModeActivity : BaseActivity<ModeDesign>() {
                     when (it) {
                         is ModeDesign.Request.PatchMode -> {
                             withClash {
-                                val o = queryOverride(Clash.OverrideSlot.Session)
+                                val o = queryOverride(Clash.OverrideSlot.Persist)
 
                                 o.mode = it.mode
 
-                                patchOverride(Clash.OverrideSlot.Session, o)
+                                patchOverride(Clash.OverrideSlot.Persist, o)
                             }
-                            design.showModeSwitchTips()
                         }
                     }
                 }

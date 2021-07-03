@@ -95,6 +95,7 @@ class AccountActivity : AppCompatActivity() {
 
             }
             layoutManager = LinearLayoutManager(this@AccountActivity)
+
         }
 
         binding.loading = true

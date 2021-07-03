@@ -69,9 +69,9 @@
                             android:layout_height="21dp"
                             android:layout_gravity="left|center_vertical"
                             android:layout_marginStart="20dp"
-                            android:src="@drawable/ic_men"
+                            android:onClick="@{() -> self.request(Request.OpenDrawer)}"
                             android:scaleType="fitXY"
-                            android:onClick="@{() -> self.request(Request.OpenDrawer)}" />
+                            android:src="@drawable/ic_men" />
 
                         <ImageView
                             android:layout_width="46.68dp"
@@ -196,19 +196,20 @@
                                         android:layout_height="24dp"
                                         android:layout_gravity="right|center_vertical"
                                         android:background="@drawable/shape_ring_rect_8"
+                                        android:gravity="center"
                                         android:onClick="@{() -> self.requestUrlTesting()}"
                                         android:paddingLeft="16dp"
-                                        android:gravity="center"
                                         android:paddingRight="16dp"
                                         android:text="@string/ping"
-                                        android:textSize="12dp"
-                                        android:textColor="@android:color/white" />
+                                        android:textColor="@android:color/white"
+                                        android:textSize="12dp" />
                                     <com.github.kr328.clash.design.view.UcssProgressbar
                                         android:id="@+id/url_test_progress_view"
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
-                                        android:layout_gravity="right|center_vertical"/>
+                                        android:layout_gravity="right|center_vertical" />
                                 </FrameLayout>
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/rv_proxy"
                                     android:layout_width="match_parent"
@@ -233,8 +234,8 @@
                 android:background="@color/bg_main"
                 android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
@@ -249,8 +250,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="@dimen/main_card_margin_vertical"
-                        android:visibility="gone"
                         android:onClick="@{() -> self.request(Request.OpenProfiles)}"
+                        android:visibility="gone"
                         app:icon="@drawable/ic_baseline_view_list"
                         app:subtext="@{profileName != null ? @string/format_profile_activated(profileName) : @string/not_selected}"
                         app:text="@string/profile" />
@@ -301,7 +302,7 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="24dp"
-                        android:background="@color/divider" />
+                        android:background="#505050" />
 
                     <TextView
                         android:layout_width="match_parent"

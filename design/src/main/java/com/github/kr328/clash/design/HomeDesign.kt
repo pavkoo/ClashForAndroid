@@ -150,17 +150,17 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
             }
             layoutManager = LinearLayoutManager(context)
             clipToPadding = false
-            val ATTRS = intArrayOf(android.R.attr.listDivider)
-
-            val a = context.obtainStyledAttributes(ATTRS)
-            val divider: Drawable? = a.getDrawable(0)
-            val inset = resources.getDimensionPixelSize(R.dimen.item_touch_helper_max_drag_scroll_per_frame)
-            val insetDivider = InsetDrawable(divider, inset, 0, inset, 0)
-            a.recycle()
-
-            val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-            itemDecoration.setDrawable(insetDivider)
-            addItemDecoration(itemDecoration)
+//            val ATTRS = intArrayOf(android.R.attr.listDivider)
+//
+//            val a = context.obtainStyledAttributes(ATTRS)
+//            val divider: Drawable? = a.getDrawable(0)
+//            val inset = resources.getDimensionPixelSize(R.dimen.item_touch_helper_max_drag_scroll_per_frame)
+//            val insetDivider = InsetDrawable(divider, inset, 0, inset, 0)
+//            a.recycle()
+//
+//            val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+//            itemDecoration.setDrawable(insetDivider)
+//            addItemDecoration(itemDecoration)
         }
     }
 

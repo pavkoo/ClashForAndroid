@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="ip"
@@ -48,69 +49,80 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{()->self.request(Request.Toggle)}">
+                android:layout_marginTop="20dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="30dp"
                     android:text="@string/wifiEnable"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
+                <androidx.appcompat.widget.SwitchCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
-                    android:layout_marginEnd="24dp"
-                    android:enabled="false"
-                    android:checked="@{checked}" />
+                    android:layout_marginEnd="20dp"
+                    android:checked="@{checked}"
+                    android:onClick="@{()->self.request(Request.Toggle)}"
+                    android:thumb="@drawable/thumb_selector"
+                    app:track="@drawable/track_selector" />
             </FrameLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="24dp"
+                android:layout_margin="20dp"
                 android:background="@drawable/shape_ring_dark"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:paddingStart="20dp"
+                android:paddingTop="22dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="26dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/port"
                     android:textColor="#909090"
-                    android:textSize="10sp" />
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/port"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="5dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="16dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="22dp"
                     android:text="@string/ip"
                     android:textColor="#909090"
-                    android:textSize="10sp" />
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="5dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{ip}" />
+                        android:text="@{ip}"
+                        android:textColor="@android:color/white"
+                        android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right" />
+                        android:layout_gravity="right"
+                        android:textColor="@android:color/white"
+                        android:textSize="16dp" />
                 </FrameLayout>
 
             </LinearLayout>
