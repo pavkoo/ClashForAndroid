@@ -110,8 +110,20 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         withClash {
             val names = queryProxyGroupNames(true)
             if (names.isNotEmpty()) {
-                design?.name = names[0]
-                val group = queryProxyGroup(names[0], uiStore.proxySort)
+                val des = "Proxies"
+                var found = false
+                for (name in names) {
+                    if (name == des) {
+                        found = true
+                        break
+                    }
+                }
+                if (found) {
+                    design?.name = des
+                } else {
+                    design?.name = names[0]
+                }
+                val group = queryProxyGroup(design?.name!!, uiStore.proxySort)
                 design?.updateProxy(group)
             }
         }

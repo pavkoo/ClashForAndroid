@@ -34,6 +34,7 @@
     <string name="noService">No Service valid</string>
     <string name="mode_switch">Valid only for current session</string>
     <string name="remain"><i>Remaining Traffic : </i></string>
+    <string name="logcat_s">LogCat</string>
 
 
 </resources>

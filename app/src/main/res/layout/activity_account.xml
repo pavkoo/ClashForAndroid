@@ -70,12 +70,12 @@
                             android:textColor="@android:color/white"
                             android:textSize="14dp" />
                         <TextView
+                            android:id="@+id/tv_logout"
                             android:layout_width="87dp"
                             android:layout_height="24dp"
                             android:layout_gravity="right"
                             android:background="@drawable/shape_rect_gray_12"
                             android:gravity="center"
-                            android:onClick="@{()->self.logout()}"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:text="@string/loginOut"

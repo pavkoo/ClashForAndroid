@@ -74,6 +74,7 @@ class AccountActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
     private fun initView() {
+        binding.tvLogout.setOnClickListener { logout() }
         binding.email = Global.user.email
         binding.rvAccount.apply {
             adapter = AccountNodeAdapter {
