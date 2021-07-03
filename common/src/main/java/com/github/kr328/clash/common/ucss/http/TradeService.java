@@ -9,4 +9,9 @@ public class TradeService {
     public String billingcycle;
     public String nextduedate;
     public boolean selected;
+
+    public long total;
+    public long download;
+    public long remain;
+    public int progress;
 }

@@ -3,6 +3,7 @@ package com.github.kr328.clash.ucss
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -26,11 +27,15 @@ import com.github.kr328.clash.design.util.resolveThemedColor
 import com.github.kr328.clash.design.util.setOnInsertsChangedListener
 import com.github.kr328.clash.util.stopClashService
 import com.google.gson.Gson
+import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.lang.RuntimeException
 
 
 class AccountActivity : AppCompatActivity() {
@@ -102,6 +107,24 @@ class AccountActivity : AppCompatActivity() {
         val api = Api.createReq(UserApi::class.java)
         api.userService(Global.user.userid)
             .subscribeOn(Schedulers.io())
+            .flatMap(Function<BaseResponse<List<TradeService>>, Observable<BaseResponse<List<TradeService>>>> {
+                if (!it.isOk) {
+                    throw RuntimeException(it.message)
+                } else {
+                    for (datum in it.data) {
+                        val detail = api.userServiceDetail(datum.serviceid).blockingFirst()
+                        if (detail.isOk) {
+                            datum.total = detail.data.bandwidth.total
+                            datum.download = detail.data.bandwidth.download
+                            datum.remain = (datum.total - datum.download)
+                            if (datum.total != 0L) {
+                                datum.progress = (datum.download * 100 / datum.total).toInt()
+                            }
+                        }
+                    }
+                }
+                return@Function Observable.just(it)
+            })
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
@@ -117,6 +140,7 @@ class AccountActivity : AppCompatActivity() {
                 }, {
                     binding.loading = false
                     Log.e("account", it)
+                    Toast.makeText(this@AccountActivity, it.message, Toast.LENGTH_SHORT).show()
                 }
             )
     }

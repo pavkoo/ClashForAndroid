@@ -12,6 +12,8 @@ import com.github.kr328.clash.core.model.Proxy
 import com.github.kr328.clash.design.util.swapDataSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.text.CharacterIterator
+import java.text.StringCharacterIterator
 
 class AccountNodeAdapter(
     private val clicked: (TradeService) -> Unit,
@@ -35,7 +37,10 @@ class AccountNodeAdapter(
     override fun onBindViewHolder(holder: AccountHolder, position: Int) {
         val current = service[position]
         holder.check.isSelected = current.selected
+        holder.subTitle.text = current.nextduedate
         holder.title.text = current.name
+        holder.progress.progress = current.progress
+        holder.progressInfo.text = humanReadableByteCountBin(current.remain)
         holder.view.apply {
             setOnClickListener {
                 clicked(current)
@@ -53,4 +58,34 @@ class AccountNodeAdapter(
         }
     }
 
+    private fun humanReadableByteCountSI(bytes: Long): String? {
+        var bytes = bytes
+        if (-1000 < bytes && bytes < 1000) {
+            return "$bytes B"
+        }
+        val ci: CharacterIterator = StringCharacterIterator("kMGTPE")
+        while (bytes <= -999950 || bytes >= 999950) {
+            bytes /= 1000
+            ci.next()
+        }
+        return java.lang.String.format("%.1f %cB", bytes / 1000.0, ci.current())
+    }
+
+
+    fun humanReadableByteCountBin(bytes: Long): String? {
+        val absB = if (bytes == Long.MIN_VALUE) Long.MAX_VALUE else Math.abs(bytes)
+        if (absB < 1024) {
+            return "$bytes B"
+        }
+        var value = absB
+        val ci: CharacterIterator = StringCharacterIterator("KMGTPE")
+        var i = 40
+        while (i >= 0 && absB > 0xfffccccccccccccL shr i) {
+            value = value shr 10
+            ci.next()
+            i -= 10
+        }
+        value *= java.lang.Long.signum(bytes).toLong()
+        return String.format("%.1f %ciB", value / 1024.0, ci.current())
+    }
 }

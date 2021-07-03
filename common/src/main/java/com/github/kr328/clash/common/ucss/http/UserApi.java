@@ -18,8 +18,10 @@ public interface UserApi {
     @GET("/api/v1/members/{userid}/services")
     Observable<BaseResponse<List<TradeService>>> userService(@Path("userid") long id);
 
+    @GET("/api/v1/services/{serviceId}")
+    Observable<BaseResponse<TradeServiceDetail>> userServiceDetail(@Path("serviceId") int id);
+
     @GET("/api/v1/subscription/{serviceId}/clash")
     Observable<BaseResponse<Subscription>> subscription(@Path("serviceId") int id);
-
 
 }
