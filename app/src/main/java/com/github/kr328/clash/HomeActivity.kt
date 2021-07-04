@@ -1,25 +1,16 @@
 package com.github.kr328.clash
 
-import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.common.util.intent
 import com.github.kr328.clash.common.util.ticker
-import com.github.kr328.clash.core.bridge.ClashException
 import com.github.kr328.clash.core.model.FetchStatus
-import com.github.kr328.clash.core.model.Proxy
 import com.github.kr328.clash.design.HomeDesign
-import com.github.kr328.clash.design.ProxyDesign
 import com.github.kr328.clash.design.ui.ToastDuration
 import com.github.kr328.clash.design.util.openInBrowser
-import com.github.kr328.clash.design.util.resolveThemedColor
-import com.github.kr328.clash.design.util.resolveThemedResourceId
-import com.github.kr328.clash.design.util.showExceptionToast
 import com.github.kr328.clash.service.model.Profile
-import com.github.kr328.clash.store.TipsStore
 import com.github.kr328.clash.ucss.AccountActivity
-import com.github.kr328.clash.ucss.LoginActivity
 import com.github.kr328.clash.util.startClashService
 import com.github.kr328.clash.util.stopClashService
 import com.github.kr328.clash.util.withClash

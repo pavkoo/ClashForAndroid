@@ -9,5 +9,6 @@ public class TradeServiceDetail {
     public static class Brand {
         public long total;
         public long download;
+        public long upload;
     }
 }

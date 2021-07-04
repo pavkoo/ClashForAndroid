@@ -4,6 +4,9 @@ import java.net.URL
 
 allprojects {
     repositories {
+        maven {
+            setUrl("https://maven.aliyun.com/repository/public/")
+        }
         google()
         mavenCentral()
         maven { setUrl("https://jitpack.io") }

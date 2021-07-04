@@ -30,6 +30,7 @@ import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,7 @@ import java.lang.RuntimeException
 class AccountActivity : AppCompatActivity() {
     val surface = Surface()
     private lateinit var binding: ActivityAccountBinding
-
+    private lateinit var subscribe: Disposable
     private val adapter: AccountNodeAdapter
         get() = binding.rvAccount.adapter!! as AccountNodeAdapter
 
@@ -105,8 +106,51 @@ class AccountActivity : AppCompatActivity() {
         }
 
         binding.loading = true
+        loadData2()
+    }
+
+    private fun loadData2() {
         val api = Api.createReq(UserApi::class.java)
-        api.userService(Global.user.userid)
+        subscribe = api.userALL(user.userid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    binding.loading = false
+                    if (it.isOk) {
+                        if (!it.isOk) {
+                            throw RuntimeException(it.message)
+                        } else {
+                            for (datum in it.data.services) {
+                                if (datum.details == null || datum.details.bandwidth == null) {
+                                    continue
+                                }
+                                datum.total = datum.details.bandwidth.total
+                                datum.download = datum.details.bandwidth.download
+                                datum.remain = (datum.total - datum.download)
+                                if (datum.total != 0L) {
+                                    datum.progress =
+                                        (datum.download * 100 / datum.total).toInt()
+                                }
+                            }
+                        }
+                        GlobalScope.launch(Dispatchers.Main) {
+                            for (datum in it.data.services) {
+                                datum.selected = user.serviceId == datum.serviceid
+                            }
+                            adapter.updateSource(it.data.services)
+                        }
+                    }
+                }, {
+                    binding.loading = false
+                    Log.e("account", it)
+                    Toast.makeText(this@AccountActivity, it.message, Toast.LENGTH_SHORT).show()
+                })
+    }
+
+    private fun loadData() {
+        val api = Api.createReq(UserApi::class.java)
+        subscribe = api.userService(Global.user.userid)
             .subscribeOn(Schedulers.io())
             .flatMap(Function<BaseResponse<List<TradeService>>, Observable<BaseResponse<List<TradeService>>>> {
                 if (!it.isOk) {
@@ -153,6 +197,10 @@ class AccountActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        subscribe.dispose()
+    }
 
     fun logout() {
         val store = UiStore(this)

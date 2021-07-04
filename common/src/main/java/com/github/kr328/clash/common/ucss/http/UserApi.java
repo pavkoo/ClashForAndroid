@@ -24,4 +24,6 @@ public interface UserApi {
     @GET("/api/v1/subscription/{serviceId}/clash")
     Observable<BaseResponse<Subscription>> subscription(@Path("serviceId") int id);
 
+    @GET("/api/v1/all-in-one/{userid}")
+    Observable<BaseResponse<UserInONe>> userALL(@Path("userid") long id);
 }

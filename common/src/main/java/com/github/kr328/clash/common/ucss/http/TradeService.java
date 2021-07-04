@@ -9,6 +9,7 @@ public class TradeService {
     public String billingcycle;
     public String nextduedate;
     public boolean selected;
+    public TradeServiceDetail details;
 
     public long total;
     public long download;

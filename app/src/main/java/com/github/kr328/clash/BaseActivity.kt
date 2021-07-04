@@ -106,13 +106,14 @@ abstract class BaseActivity<D : Design<*>> :
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        applyDayNight()
 
         launch {
             main()
 
             finish()
         }
+        applyDayNight()
+
     }
 
     override fun onStart() {
@@ -241,6 +242,10 @@ abstract class BaseActivity<D : Design<*>> :
 
         window.statusBarColor = resolveThemedColor(android.R.attr.statusBarColor)
         window.navigationBarColor = resolveThemedColor(android.R.attr.navigationBarColor)
+
+//        window.attributes.flags =
+//            window.attributes.flags and (FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS or FLAG_TRANSLUCENT_STATUS).inv()
+//        window.navigationBarColor = Color.BLACK
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.isLightStatusBarsCompat =

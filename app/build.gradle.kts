@@ -130,6 +130,7 @@ dependencies {
     implementation("androidx.fragment:fragment:$fragmentVersion")
     implementation("com.google.android.material:material:$materialVersion")
     implementation("com.github.JessYanCoding:AndroidAutoSize:v1.2.1")
+//    implementation("com.gyf.immersionbar:immersionbar:3.0.0")
 
     api("io.reactivex.rxjava2:rxandroid:2.1.1")
     api("io.reactivex.rxjava2:rxjava:2.2.10")
