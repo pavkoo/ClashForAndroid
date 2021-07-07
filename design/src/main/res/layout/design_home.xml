@@ -124,7 +124,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
                             android:onClick="@{() -> self.request(Request.OpenProxy)}"
-                            android:visibility="@{clashRunning ?  View.VISIBLE :View.GONE }"
                             app:layout_constraintEnd_toStartOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/guideline_center"
@@ -140,8 +139,8 @@
                     <com.github.kr328.clash.design.view.LargeActionCard
                         android:layout_width="@dimen/slide_bar_width"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/slide_bar_margin_top"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/slide_bar_margin_top"
                         android:layout_marginBottom="-24dp"
                         app:cardBackgroundColor="#525252"
                         app:cardCornerRadius="10dp">
@@ -162,12 +161,11 @@
                                 android:text="@string/connHint"
                                 android:textColor="#999"
                                 android:textSize="16dp"
-                                android:visibility="@{clashRunning ? View.GONE: View.VISIBLE }" />
+                                android:visibility="gone" />
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:visibility="@{conState == ConState.ED ? View.VISIBLE :View.GONE }">
+                                android:orientation="vertical">
                                 <com.github.kr328.clash.design.component.ProxyNodeView
                                     android:id="@+id/current_node"
                                     android:layout_width="match_parent"
@@ -189,24 +187,29 @@
                                         android:textColor="@android:color/white"
                                         android:textSize="20dp"
                                         android:textStyle="bold" />
-                                    <TextView
-                                        android:id="@+id/tv_ping"
-                                        android:layout_width="wrap_content"
+                                    <FrameLayout
+                                        android:layout_width="68dp"
                                         android:layout_height="24dp"
-                                        android:layout_gravity="right|center_vertical"
-                                        android:background="@drawable/shape_ring_rect_8"
-                                        android:gravity="center"
-                                        android:onClick="@{() -> self.requestUrlTesting()}"
-                                        android:paddingLeft="16dp"
-                                        android:paddingRight="16dp"
-                                        android:text="@string/ping"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="12dp" />
-                                    <com.github.kr328.clash.design.view.UcssProgressbar
-                                        android:id="@+id/url_test_progress_view"
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
-                                        android:layout_gravity="right|center_vertical" />
+                                        android:layout_gravity="right"
+                                        android:background="@drawable/shape_ring_rect_8">
+                                        <TextView
+                                            android:id="@+id/tv_ping"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center_vertical"
+                                            android:gravity="center"
+                                            android:onClick="@{() -> self.requestUrlTesting()}"
+                                            android:paddingLeft="16dp"
+                                            android:paddingRight="16dp"
+                                            android:text="@string/ping"
+                                            android:textColor="@android:color/white"
+                                            android:textSize="12dp" />
+                                        <com.github.kr328.clash.design.view.UcssProgressbar
+                                            android:id="@+id/url_test_progress_view"
+                                            android:layout_width="17dp"
+                                            android:layout_height="17dp"
+                                            android:layout_gravity="center" />
+                                    </FrameLayout>
                                 </FrameLayout>
 
                                 <androidx.recyclerview.widget.RecyclerView
@@ -278,7 +281,6 @@
                         android:layout_height="match_parent"
                         android:layout_marginVertical="@dimen/main_label_margin_vertical"
                         android:onClick="@{() -> self.request(Request.OpenProxy )}"
-                        android:visibility="@{clashRunning ? View.VISIBLE : View.GONE}"
                         app:text="@string/mode" />
 
                     <com.github.kr328.clash.design.view.LargeActionLabel

@@ -17,15 +17,13 @@ import com.github.kr328.clash.common.Global;
 import com.github.kr328.clash.common.ucss.http.Api;
 import com.github.kr328.clash.common.ucss.http.BaseResponse;
 import com.github.kr328.clash.common.ucss.http.Subscription;
-import com.github.kr328.clash.common.ucss.http.TradeService;
 import com.github.kr328.clash.common.ucss.http.UserApi;
+import com.github.kr328.clash.common.ucss.http.UserInONe;
 import com.github.kr328.clash.common.ucss.http.UserInfo;
 import com.github.kr328.clash.common.util.StringUtil;
 import com.github.kr328.clash.design.store.UiStore;
 import com.github.kr328.clash.design.view.UcssProgressbar;
 import com.google.gson.Gson;
-
-import java.util.List;
 
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
@@ -37,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author shangji_cd
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
     private EditText tvName;
     private EditText tvPass;
     private TextView tvError;
@@ -47,6 +45,7 @@ public class LoginActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         tvName = findViewById(R.id.username);
         tvPass = findViewById(R.id.password);
@@ -98,16 +97,17 @@ public class LoginActivity extends AppCompatActivity{
         UserApi api = Api.createReq(UserApi.class);
         api.login()
                 .subscribeOn(Schedulers.io())
-                .flatMap((Function<BaseResponse<UserInfo>, ObservableSource<BaseResponse<List<TradeService>>>>) userInfoBaseResponse -> {
+                .flatMap((Function<BaseResponse<UserInfo>, ObservableSource<BaseResponse<UserInONe>>>) userInfoBaseResponse -> {
                     if (!userInfoBaseResponse.isOk()) {
                         throw new RuntimeException(userInfoBaseResponse.message);
                     }
                     Global.INSTANCE.getUser().userid = userInfoBaseResponse.data.userid;
-                    return api.userService(userInfoBaseResponse.data.userid);
+                    return api.userALL(userInfoBaseResponse.data.userid);
                 })
-                .flatMap((Function<BaseResponse<List<TradeService>>, ObservableSource<BaseResponse<Subscription>>>) listBaseResponse -> {
-                    if (listBaseResponse.isOk() && listBaseResponse.data.size() > 0) {
-                        Global.INSTANCE.getUser().serviceId = listBaseResponse.data.get(0).serviceid;
+                .flatMap((Function<BaseResponse<UserInONe>, ObservableSource<BaseResponse<Subscription>>>) listBaseResponse -> {
+                    if (listBaseResponse.isOk() && listBaseResponse.data.services.size() > 0) {
+                        Global.INSTANCE.getUser().serviceId = listBaseResponse.data.services.get(0).serviceid;
+                        Global.INSTANCE.getUser().all = listBaseResponse.data;
                     } else {
                         throw new RuntimeException("No valid service");
                     }

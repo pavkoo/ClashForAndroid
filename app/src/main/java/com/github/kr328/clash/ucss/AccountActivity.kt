@@ -140,6 +140,10 @@ class AccountActivity : AppCompatActivity() {
                             }
                             adapter.updateSource(it.data.services)
                         }
+                        val store = UiStore(this@AccountActivity)
+                        user.all = it.data
+                        val gson = Gson()
+                        store.userInfo = gson.toJson(user)
                     }
                 }, {
                     binding.loading = false

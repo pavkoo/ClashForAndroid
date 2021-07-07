@@ -12,4 +12,6 @@ public class UserInfo {
     public int serviceId;
     public String subUri;
     public UUID currentUuid;
+
+    public UserInONe all;
 }

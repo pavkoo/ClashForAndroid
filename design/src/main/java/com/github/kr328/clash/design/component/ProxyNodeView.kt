@@ -75,12 +75,18 @@ class ProxyNodeView @JvmOverloads constructor(
     }
 
     fun setSource(proxy: Proxy?) {
-        text = proxy?.name
-        icon = getResByName(proxy?.title)?.let { context.getDrawable(it) }
-        subtext = if (proxy?.delay in 0..Short.MAX_VALUE) proxy?.delay.toString() + "ms" else ""
+        if (proxy == null) {
+            text = ""
+            icon = null
+            subtext = ""
+        } else {
+            text = proxy.name
+            icon = getResByName(proxy.title)?.let { context.getDrawable(it) }
+            subtext = if (proxy.delay in 0..Short.MAX_VALUE) proxy.delay.toString() + "ms" else ""
+        }
     }
 
-    fun setDivider(value: Boolean){
+    fun setDivider(value: Boolean) {
         if (value) {
             binding.divider.visibility = View.VISIBLE
         } else {

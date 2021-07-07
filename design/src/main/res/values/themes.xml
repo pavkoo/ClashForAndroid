@@ -132,6 +132,7 @@
 
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogLight</item>
         <item name="fullScreenDialogTheme">@style/AppFullScreenDialogLight</item>
+        <item name="android:overScrollMode">never</item>
     </style>
 
     <style name="AppThemeDarkBase" parent="Theme.MaterialComponents.NoActionBar">
@@ -155,6 +156,7 @@
 
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogDark</item>
         <item name="fullScreenDialogTheme">@style/AppFullScreenDialogDark</item>
+        <item name="android:overScrollMode">never</item>
     </style>
 
     <style name="AppThemeLight" parent="AppThemeLightBase">

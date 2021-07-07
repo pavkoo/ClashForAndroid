@@ -39,8 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ucss.LoginActivity"
-            android:theme="@style/FullScreen" />
+            android:name=".ucss.LoginActivity" />
         <activity
             android:label="@string/account"
             android:name=".ucss.AccountActivity" />

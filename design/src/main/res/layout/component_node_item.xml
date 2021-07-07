@@ -24,8 +24,8 @@
             android:paddingBottom="16dp">
             <ImageView
                 android:id="@+id/icon_view"
-                android:layout_width="@dimen/large_item_header_component_size"
-                android:layout_height="20dp" />
+                android:layout_width="22dp"
+                android:layout_height="15dp" />
 
             <TextView
                 android:id="@+id/text_view"

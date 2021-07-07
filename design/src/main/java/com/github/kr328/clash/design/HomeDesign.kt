@@ -8,6 +8,8 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.kr328.clash.common.Global
+import com.github.kr328.clash.core.model.Proxy
 import com.github.kr328.clash.core.model.ProxyGroup
 import com.github.kr328.clash.core.model.TunnelState
 import com.github.kr328.clash.core.util.trafficTotal
@@ -18,8 +20,7 @@ import com.github.kr328.clash.design.util.layoutInflater
 import com.github.kr328.clash.design.util.resolveThemedColor
 import com.github.kr328.clash.design.util.root
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 
 class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
@@ -74,6 +75,7 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
             if (running) {
                 request(Request.FetchProxy)
             } else {
+                binding.currentNode.setSource(null)
                 setConState(ConState.DIS)
             }
         }
@@ -161,6 +163,21 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
 //            val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
 //            itemDecoration.setDrawable(insetDivider)
 //            addItemDecoration(itemDecoration)
+        }
+        GlobalScope.launch {
+            withContext(Dispatchers.Main) {
+                val service =
+                    Global.user.all.services.find { it.serviceid == Global.user.serviceId }
+                val proxy =
+                    service?.servers?.map {
+                        Proxy(
+                            it.name, it.name, "", Proxy.Type.Selector, 65535
+                        )
+                    }
+                if (proxy != null) {
+                    adapter.updateSource(proxy)
+                }
+            }
         }
     }
 
