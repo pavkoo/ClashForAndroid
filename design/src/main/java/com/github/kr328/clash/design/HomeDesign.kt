@@ -28,6 +28,7 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
     enum class Request {
         ToggleStatus,
         OpenProxy,
+        OpenMode,
         OpenProfiles,
         OpenProviders,
         OpenLogs,

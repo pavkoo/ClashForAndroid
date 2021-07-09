@@ -280,6 +280,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="@dimen/main_label_margin_vertical"
+                        android:onClick="@{() -> self.request(Request.OpenMode )}"
+                        app:text="@string/mode" />
+
+                    <com.github.kr328.clash.design.view.LargeActionLabel
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/main_label_margin_vertical"
                         android:onClick="@{() -> self.request(Request.OpenProxy )}"
                         app:text="@string/mode" />
 

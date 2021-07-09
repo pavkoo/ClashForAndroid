@@ -48,8 +48,10 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                             else
                                 design.startClash()
                         }
-                        HomeDesign.Request.OpenProxy ->
+                        HomeDesign.Request.OpenMode ->
                             startActivity(ModeActivity::class.intent)
+                        HomeDesign.Request.OpenProxy ->
+                            startActivity(ProxyActivity::class.intent)
                         HomeDesign.Request.OpenProfiles ->
                             startActivity(ProfilesActivity::class.intent)
                         HomeDesign.Request.OpenProviders ->
