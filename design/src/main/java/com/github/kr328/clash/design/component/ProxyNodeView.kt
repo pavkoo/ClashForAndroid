@@ -98,35 +98,36 @@ class ProxyNodeView @JvmOverloads constructor(
         if (title.isNullOrEmpty()) {
             return null
         }
-        when (title.substringBefore("-")) {
-            "Taiwan" -> return R.drawable.tw
-            "Japan" -> return R.drawable.jp
-            "Korea" -> return R.drawable.kr
-            "USA" -> return R.drawable.us
-            "Singapore" -> return R.drawable.sg
-            "Hong Kong" -> return R.drawable.hk
-            "UK" -> return R.drawable.gb
-            "Germany" -> return R.drawable.de
-            "Canada" -> return R.drawable.ca
-            "China" -> return R.drawable.cn
-            "Austria" -> return R.drawable.at
-            "Australia" -> return R.drawable.au
-            "Belgium" -> return R.drawable.be
-            "France" -> return R.drawable.fr
-            "Israel" -> return R.drawable.il
-            "India" -> return R.drawable.`in`
-            "Italy" -> return R.drawable.it
-            "Macau" -> return R.drawable.mo
-            "Malaysia" -> return R.drawable.my
-            "Netherlands" -> return R.drawable.nl
-            "Philippines" -> return R.drawable.ph
-            "Poland" -> return R.drawable.pl
-            "Romania" -> return R.drawable.ro
-            "Russia" -> return R.drawable.ru
-            "Thailand" -> return R.drawable.th
-            "Turkey" -> return R.drawable.tr
-            "Vietnam" -> return R.drawable.vn
+        when {
+            title.contains("Taiwan") -> return R.drawable.tw
+            title.contains("Japan") -> return R.drawable.jp
+            title.contains("Korea") -> return R.drawable.kr
+            title.contains("USA") -> return R.drawable.us
+            title.contains("Singapore") -> return R.drawable.sg
+            title.contains("Hong Kong") -> return R.drawable.hk
+            title.contains("UK") -> return R.drawable.gb
+            title.contains("Germany") -> return R.drawable.de
+            title.contains("Canada") -> return R.drawable.ca
+            title.contains("China") -> return R.drawable.cn
+            title.contains("Austria") -> return R.drawable.at
+            title.contains("Australia") -> return R.drawable.au
+            title.contains("Belgium") -> return R.drawable.be
+            title.contains("France") -> return R.drawable.fr
+            title.contains("Israel") -> return R.drawable.il
+            title.contains("India") -> return R.drawable.`in`
+            title.contains("Italy") -> return R.drawable.it
+            title.contains("Macau") -> return R.drawable.mo
+            title.contains("Malaysia") -> return R.drawable.my
+            title.contains("Netherlands") -> return R.drawable.nl
+            title.contains("Philippines") -> return R.drawable.ph
+            title.contains("Poland") -> return R.drawable.pl
+            title.contains("Romania") -> return R.drawable.ro
+            title.contains("Russia") -> return R.drawable.ru
+            title.contains("Thailand") -> return R.drawable.th
+            title.contains("Turkey") -> return R.drawable.tr
+            title.contains("Vietnam") -> return R.drawable.vn
+            else -> return null
         }
-        return null
+
     }
 }

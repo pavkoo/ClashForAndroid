@@ -92,6 +92,9 @@ class HomeActivity : BaseActivity<HomeDesign>() {
     }
 
     private suspend fun selectNode() {
+        if (design?.name.isNullOrEmpty()) {
+            return
+        }
         withClash {
             patchSelector(design?.name!!, design?.currentNode!!)
             design?.changeNode()
