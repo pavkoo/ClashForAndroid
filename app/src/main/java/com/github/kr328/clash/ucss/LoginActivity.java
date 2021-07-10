@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 .flatMap((Function<BaseResponse<UserInONe>, ObservableSource<BaseResponse<Subscription>>>) listBaseResponse -> {
                     if (listBaseResponse.isOk() && listBaseResponse.data.services.size() > 0) {
                         Global.INSTANCE.getUser().serviceId = listBaseResponse.data.services.get(0).serviceid;
+                        Global.INSTANCE.getUser().serviceName = listBaseResponse.data.services.get(0).name;
                         Global.INSTANCE.getUser().all = listBaseResponse.data;
                     } else {
                         throw new RuntimeException("No valid service");

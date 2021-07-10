@@ -68,6 +68,11 @@ class UiStore(context: Context) {
         defaultValue = false,
     )
 
+    var global: Boolean by store.boolean(
+        key = "global_mode",
+        defaultValue = false
+    )
+
     companion object {
         private const val PREFERENCE_NAME = "ui"
     }

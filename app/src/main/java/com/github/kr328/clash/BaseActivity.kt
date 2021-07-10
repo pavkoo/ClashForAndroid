@@ -41,6 +41,7 @@ abstract class BaseActivity<D : Design<*>> :
     enum class Event {
         ServiceRecreated,
         ActivityStart,
+        ActivityResume,
         ActivityStop,
         ClashStop,
         ClashStart,
@@ -125,6 +126,17 @@ abstract class BaseActivity<D : Design<*>> :
 
         events.trySend(Event.ActivityStart)
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        activityStarted = true
+
+        Remote.broadcasts.addObserver(this)
+
+        events.trySend(Event.ActivityResume)
+    }
+
 
     override fun onStop() {
         super.onStop()

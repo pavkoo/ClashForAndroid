@@ -2,11 +2,8 @@ package com.github.kr328.clash.design
 
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.InsetDrawable
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.core.model.Proxy
@@ -58,8 +55,8 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
         get() = binding.rvProxy.adapter!! as ProxyNodeAdapter
     private var urlTesting: Boolean = false
 
-    lateinit var name: String
-    lateinit var currentNode: String
+    var group: String? = null
+    var currentNode: String? = null
 
     override val root: View
         get() = binding.root
@@ -189,6 +186,7 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
     suspend fun updateProxy(group: ProxyGroup) {
         adapter.updateSource(group.proxies)
         updateCurrent(group.now)
+        requests.trySend(Request.Select)
         setConState(ConState.ED)
         urlTesting = false
         withContext(Dispatchers.Main) {
@@ -197,6 +195,7 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
     }
 
     private suspend fun updateCurrent(now: String) {
+        currentNode = now
         withContext(Dispatchers.Main) {
             val c = adapter.states.find { s -> s.name == now }
             binding.currentNode.setSource(c)
@@ -223,6 +222,6 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
     }
 
     suspend fun changeNode() {
-        updateCurrent(currentNode)
+        updateCurrent(currentNode!!)
     }
 }

@@ -14,6 +14,7 @@ class ModeActivity : BaseActivity<ModeDesign>() {
         val design = ModeDesign(
             this,
             mode,
+            uiStore
         )
 
         setContentDesign(design)

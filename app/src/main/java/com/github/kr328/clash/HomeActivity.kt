@@ -6,6 +6,7 @@ import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.common.util.intent
 import com.github.kr328.clash.common.util.ticker
 import com.github.kr328.clash.core.model.FetchStatus
+import com.github.kr328.clash.core.model.TunnelState
 import com.github.kr328.clash.design.HomeDesign
 import com.github.kr328.clash.design.ui.ToastDuration
 import com.github.kr328.clash.design.util.openInBrowser
@@ -33,7 +34,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
             select<Unit> {
                 events.onReceive {
                     when (it) {
-                        Event.ActivityStart,
+                        Event.ActivityResume,
                         Event.ServiceRecreated,
                         Event.ClashStop, Event.ClashStart,
                         Event.ProfileLoaded, Event.ProfileChanged -> design.fetch()
@@ -94,11 +95,12 @@ class HomeActivity : BaseActivity<HomeDesign>() {
     }
 
     private suspend fun selectNode() {
-        if (design?.name.isNullOrEmpty()) {
+        if (design?.group.isNullOrEmpty()) {
             return
         }
         withClash {
-            patchSelector(design?.name!!, design?.currentNode!!)
+            val currentGroup = if (uiStore.global) "GLOBAL" else design?.group!!
+            patchSelector(currentGroup, design?.currentNode!!)
             design?.changeNode()
         }
     }
@@ -116,11 +118,11 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                     }
                 }
                 if (found) {
-                    design?.name = des
+                    design?.group = des
                 } else {
-                    design?.name = names[0]
+                    design?.group = names[0]
                 }
-                val group = queryProxyGroup(design?.name!!, uiStore.proxySort)
+                val group = queryProxyGroup(design?.group!!, uiStore.proxySort)
                 design?.updateProxy(group)
             }
         }
@@ -129,7 +131,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
     private suspend fun ping() {
         launch {
             withClash {
-                design?.name?.let { healthCheck(it) }
+                design?.group?.let { healthCheck(it) }
             }
 
             fetchProxy()
@@ -146,7 +148,11 @@ class HomeActivity : BaseActivity<HomeDesign>() {
             queryProviders()
         }
 
-        setMode(state.mode)
+        if (clashRunning) {
+            setMode(state.mode)
+        } else {
+            if (uiStore.global) setMode(TunnelState.Mode.Global) else setMode(TunnelState.Mode.Rule)
+        }
         setHasProviders(providers.isNotEmpty())
 
         withProfile {
@@ -183,7 +189,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         }
         //更新
         for (profile in list) {
-            if (profile.name == Global.user.serviceId.toString()) {
+            if (profile.name == Global.user.serviceName) {
                 withProfile {
                     Global.user.currentUuid = profile.uuid
                     update(profile.uuid)
@@ -195,7 +201,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         }
 
         //创建
-        val uuid = withProfile { create(Profile.Type.Url, Global.user.serviceId.toString()) }
+        val uuid = withProfile { create(Profile.Type.Url, Global.user.serviceName) }
         val original = withProfile { queryByUUID(uuid) } ?: return
 
 //        val profile = original.copy(source = "https://feedneo.com/files/b4aB7wjxan/clash.yml")

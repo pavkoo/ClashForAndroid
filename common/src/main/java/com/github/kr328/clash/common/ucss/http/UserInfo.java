@@ -10,6 +10,7 @@ public class UserInfo {
     public String email;
     public String token;
     public int serviceId;
+    public String serviceName;
     public String subUri;
     public UUID currentUuid;
 

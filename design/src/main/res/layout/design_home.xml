@@ -123,7 +123,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
-                            android:onClick="@{() -> self.request(Request.OpenProxy)}"
+                            android:onClick="@{() -> self.request(Request.OpenMode)}"
                             app:layout_constraintEnd_toStartOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/guideline_center"
@@ -283,12 +283,6 @@
                         android:onClick="@{() -> self.request(Request.OpenMode )}"
                         app:text="@string/mode" />
 
-                    <com.github.kr328.clash.design.view.LargeActionLabel
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginVertical="@dimen/main_label_margin_vertical"
-                        android:onClick="@{() -> self.request(Request.OpenProxy )}"
-                        app:text="@string/mode" />
 
                     <com.github.kr328.clash.design.view.LargeActionLabel
                         android:layout_width="match_parent"

@@ -6,15 +6,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kr328.clash.R
 import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.common.Global.user
-import com.github.kr328.clash.common.compat.isAllowForceDarkCompat
 import com.github.kr328.clash.common.compat.isLightNavigationBarCompat
 import com.github.kr328.clash.common.compat.isLightStatusBarsCompat
-import com.github.kr328.clash.common.compat.isSystemBarsTranslucentCompat
 import com.github.kr328.clash.common.log.Log
 import com.github.kr328.clash.common.ucss.http.*
 import com.github.kr328.clash.common.util.intent
@@ -23,12 +20,10 @@ import com.github.kr328.clash.design.store.UiStore
 import com.github.kr328.clash.design.ui.Surface
 import com.github.kr328.clash.design.util.applyFrom
 import com.github.kr328.clash.design.util.resolveThemedBoolean
-import com.github.kr328.clash.design.util.resolveThemedColor
 import com.github.kr328.clash.design.util.setOnInsertsChangedListener
 import com.github.kr328.clash.util.stopClashService
 import com.google.gson.Gson
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function
@@ -91,6 +86,7 @@ class AccountActivity : AppCompatActivity() {
                         val store = UiStore(this@AccountActivity)
                         user.subUri = res.data.url
                         user.serviceId = it.serviceid
+                        user.serviceName = it.name
                         val gson = Gson()
                         store.userInfo = gson.toJson(user)
                         refresh(it.serviceid)
