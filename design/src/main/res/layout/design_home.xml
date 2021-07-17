@@ -170,7 +170,7 @@
                                     android:id="@+id/current_node"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="30dp"
+                                    android:layout_marginTop="26dp"
                                     android:layout_marginBottom="30dp" />
                                 <FrameLayout
                                     android:layout_width="match_parent"
@@ -191,7 +191,8 @@
                                         android:layout_width="68dp"
                                         android:layout_height="24dp"
                                         android:layout_gravity="right"
-                                        android:background="@drawable/shape_ring_rect_8">
+                                        android:background="@drawable/shape_ring_rect_8"
+                                        android:visibility="@{conState == ConState.ED ? View.VISIBLE:View.GONE}">
                                         <TextView
                                             android:id="@+id/tv_ping"
                                             android:layout_width="match_parent"
@@ -283,6 +284,13 @@
                         android:onClick="@{() -> self.request(Request.OpenMode )}"
                         app:text="@string/mode" />
 
+                    <com.github.kr328.clash.design.view.LargeActionLabel
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/main_label_margin_vertical"
+                        android:onClick="@{() -> self.request(Request.OpenProxy )}"
+                        android:visibility="gone"
+                        app:text="@string/proxy" />
 
                     <com.github.kr328.clash.design.view.LargeActionLabel
                         android:layout_width="match_parent"

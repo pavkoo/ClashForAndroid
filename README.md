@@ -1,4 +1,4 @@
-## Clash for Android
+## UCSS
 
 A Graphical user interface of [clash](https://github.com/Dreamacro/clash) for Android
 

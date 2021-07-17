@@ -58,7 +58,7 @@ object Bridge {
         ParcelFileDescriptor.open(File(ctx.packageCodePath), ParcelFileDescriptor.MODE_READ_ONLY)
             .detachFd()
 
-        val home = ctx.filesDir.resolve("clash").apply { mkdirs() }.absolutePath
+        val home = ctx.filesDir.resolve("ucss").apply { mkdirs() }.absolutePath
         val versionName = ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName
         val sdkVersion = Build.VERSION.SDK_INT
 

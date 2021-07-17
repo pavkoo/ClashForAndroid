@@ -3,8 +3,8 @@ package com.github.kr328.clash
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import com.github.kr328.clash.common.Global
+import com.github.kr328.clash.common.log.Log
 import com.github.kr328.clash.common.util.intent
-import com.github.kr328.clash.common.util.ticker
 import com.github.kr328.clash.core.model.FetchStatus
 import com.github.kr328.clash.core.model.TunnelState
 import com.github.kr328.clash.design.HomeDesign
@@ -18,26 +18,24 @@ import com.github.kr328.clash.util.withClash
 import com.github.kr328.clash.util.withProfile
 import kotlinx.coroutines.*
 import kotlinx.coroutines.selects.select
-import java.util.concurrent.TimeUnit
 
 class HomeActivity : BaseActivity<HomeDesign>() {
     override suspend fun main() {
-        val design = HomeDesign(this)
+        val design = HomeDesign(this, uiStore)
 
         setContentDesign(design)
-
-        design.fetch()
-
-        val ticker = ticker(TimeUnit.SECONDS.toMillis(1))
 
         while (isActive) {
             select<Unit> {
                 events.onReceive {
+                    Log.d(it.toString())
                     when (it) {
-                        Event.ActivityResume,
+                        Event.ActivityResume -> design.updateAllNodes()
                         Event.ServiceRecreated,
-                        Event.ClashStop, Event.ClashStart,
-                        Event.ProfileLoaded, Event.ProfileChanged -> design.fetch()
+                        Event.ProfileChanged,
+                        Event.ClashStop,
+                        Event.ProfileLoaded -> design.fetch()
+                        Event.ClashStart -> repatchNode()
                         else -> Unit
                     }
                 }
@@ -77,54 +75,72 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                             val uri = "https://my.undercurrentss.net/submitticket.php".toUri()
                             uri.openInBrowser(this@HomeActivity)
                         }
-                        HomeDesign.Request.FetchProxy ->
-                            fetchProxy()
+//                        HomeDesign.Request.FetchProxy ->
+//                            fetchProxy()
                         HomeDesign.Request.Ping ->
                             ping()
+                        HomeDesign.Request.ForceSelect -> repatchNode()
                         HomeDesign.Request.Select ->
                             selectNode()
                     }
                 }
-                if (clashRunning) {
-                    ticker.onReceive {
-                        design.fetchTraffic()
-                    }
-                }
+//                if (clashRunning) {
+//                    ticker.onReceive {
+//                        design.fetchTraffic()
+//                    }
+//                }
             }
+        }
+    }
+
+    private suspend fun repatchNode() {
+        if (Global.ui.needPatchNode) {
+            Global.ui.needPatchNode = false
+            selectNode()
         }
     }
 
     private suspend fun selectNode() {
+        if (!clashRunning) {
+            return
+        }
         if (design?.group.isNullOrEmpty()) {
             return
         }
         withClash {
-            val currentGroup = if (uiStore.global) "GLOBAL" else design?.group!!
+            val currentGroup = design?.group!!
             patchSelector(currentGroup, design?.currentNode!!)
             design?.changeNode()
         }
     }
+//
+//    private suspend fun fetchProxy() {
+//        withClash {
+//            val names = queryProxyGroupNames(true)
+//            if (names.isNotEmpty()) {
+//                val des = "Proxies"
+//                var found = false
+//                for (name in names) {
+//                    if (name == des) {
+//                        found = true
+//                        break
+//                    }
+//                }
+//                if (found) {
+//                    design?.group = des
+//                } else {
+//                    design?.group = names[0]
+//                }
+//                val group = queryProxyGroup(design?.group!!, uiStore.proxySort)
+//                design?.updateProxy(group)
+//            }
+//        }
+//    }
 
-    private suspend fun fetchProxy() {
+    private suspend fun updateAllNode() {
         withClash {
-            val names = queryProxyGroupNames(true)
-            if (names.isNotEmpty()) {
-                val des = "Proxies"
-                var found = false
-                for (name in names) {
-                    if (name == des) {
-                        found = true
-                        break
-                    }
-                }
-                if (found) {
-                    design?.group = des
-                } else {
-                    design?.group = names[0]
-                }
-                val group = queryProxyGroup(design?.group!!, uiStore.proxySort)
-                design?.updateProxy(group)
-            }
+            val group = queryProxyGroup(design?.group!!, uiStore.proxySort)
+            design?.updatePing(group)
         }
     }
 
@@ -133,31 +149,16 @@ class HomeActivity : BaseActivity<HomeDesign>() {
             withClash {
                 design?.group?.let { healthCheck(it) }
             }
-
-            fetchProxy()
+            updateAllNode()
         }
     }
 
     private suspend fun HomeDesign.fetch() {
         setClashRunning(clashRunning)
+    }
 
-        val state = withClash {
-            queryTunnelState()
-        }
-        val providers = withClash {
-            queryProviders()
-        }
-
-        if (clashRunning) {
-            setMode(state.mode)
-        } else {
-            if (uiStore.global) setMode(TunnelState.Mode.Global) else setMode(TunnelState.Mode.Rule)
-        }
-        setHasProviders(providers.isNotEmpty())
-
-        withProfile {
-            setProfileName(queryActive()?.name)
-        }
+    private suspend fun HomeDesign.forceNode() {
+        request(HomeDesign.Request.Select)
     }
 
     private suspend fun HomeDesign.fetchTraffic() {
@@ -170,14 +171,11 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         setConState(HomeDesign.ConState.ING)
         val active = withProfile { queryActive() }
 
-        if (active == null || !active.imported || !active.active || active.name != Global.user.serviceId.toString()) {
-//            showToast(R.string.noService, ToastDuration.Long) {
-//                setAction(R.string.profiles) {
-//                    startActivity(LoginActivity::class.intent)
-//                }
-//            }
+        if (active == null || !active.imported || !active.active || active.name != Global.user.serviceName.toString()) {
             fetchOrCreateProfile()
             return
+        } else {
+            Global.user.currentUuid = active.uuid
         }
 
         realStart()
@@ -192,13 +190,13 @@ class HomeActivity : BaseActivity<HomeDesign>() {
             if (profile.name == Global.user.serviceName) {
                 withProfile {
                     Global.user.currentUuid = profile.uuid
-                    update(profile.uuid)
                     setActive(profile)
                     realStart()
                 }
                 return
             }
         }
+
 
         //创建
         val uuid = withProfile { create(Profile.Type.Url, Global.user.serviceName) }
@@ -216,6 +214,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                         }
                     }
                     release(uuid)
+                    Global.user.currentUuid = profile.uuid
                     setActive(profile)
                 }
             }

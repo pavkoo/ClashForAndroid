@@ -19,8 +19,8 @@ class MainApplication : Application() {
     }
 
     private fun adaptScreen() {
-        Global.setTablet(applicationContext.isTablet())
-        if (Global.isTablet) {
+        Global.ui.isTablet = applicationContext.isTablet()
+        if (Global.ui.isTablet) {
             AutoSizeConfig.getInstance().designWidthInDp = 768
             AutoSizeConfig.getInstance().designHeightInDp = 1024
         } else {

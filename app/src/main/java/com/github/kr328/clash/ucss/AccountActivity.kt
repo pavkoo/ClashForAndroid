@@ -87,11 +87,14 @@ class AccountActivity : AppCompatActivity() {
                         user.subUri = res.data.url
                         user.serviceId = it.serviceid
                         user.serviceName = it.name
+                        user.currentUuid = null
                         val gson = Gson()
                         store.userInfo = gson.toJson(user)
+                        store.currentNode=""
                         refresh(it.serviceid)
                         stopClashService()
                         binding.loading = false
+                        Global.ui.switchAccount = true
                     }, {
                         binding.loading = false
                     })

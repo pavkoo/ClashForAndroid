@@ -319,7 +319,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
             }
         }
 
-        if (Global.INSTANCE.isTablet()) {
+        if (Global.INSTANCE.getUi().isTablet) {
             mAnchorPoint = 0.8f;
         }
 

@@ -1,12 +1,14 @@
 package com.github.kr328.clash.design.component
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
+import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.core.model.Proxy
 import com.github.kr328.clash.design.R
 import com.github.kr328.clash.design.databinding.ComponentNodeItemBinding
@@ -75,15 +77,30 @@ class ProxyNodeView @JvmOverloads constructor(
     }
 
     fun setSource(proxy: Proxy?) {
-        if (proxy == null) {
-            text = ""
-            icon = null
-            subtext = ""
+        val newDelay =
+            if (proxy?.delay in 0..Short.MAX_VALUE) proxy?.delay.toString() + "ms" else ""
+        icon = getResByName(proxy?.title)?.let { context.getDrawable(it) }
+        if (text == proxy?.name) {
+            if (newDelay.isNotEmpty()) {
+                subtext = newDelay
+            }
         } else {
-            text = proxy.name
-            icon = getResByName(proxy.title)?.let { context.getDrawable(it) }
-            subtext = if (proxy.delay in 0..Short.MAX_VALUE) proxy.delay.toString() + "ms" else ""
+            text = proxy?.name
+            subtext = newDelay
         }
+        if (Global.ui.currentNode == proxy?.name) {
+            setBold()
+        } else {
+            setNormal()
+        }
+    }
+
+    private fun setBold() {
+        binding.textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+    }
+
+    private fun setNormal() {
+        binding.textView.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
     }
 
     fun setDivider(value: Boolean) {

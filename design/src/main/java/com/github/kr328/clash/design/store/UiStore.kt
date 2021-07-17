@@ -73,6 +73,11 @@ class UiStore(context: Context) {
         defaultValue = false
     )
 
+    var currentNode : String by store.string(
+        key = "current_node",
+        defaultValue = ""
+    )
+
     companion object {
         private const val PREFERENCE_NAME = "ui"
     }

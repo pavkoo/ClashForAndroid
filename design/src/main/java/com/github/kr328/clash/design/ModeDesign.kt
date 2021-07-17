@@ -2,6 +2,7 @@ package com.github.kr328.clash.design
 
 import android.content.Context
 import android.view.View
+import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.core.model.TunnelState
 import com.github.kr328.clash.design.databinding.DesignModeBinding
 import com.github.kr328.clash.design.store.UiStore
@@ -38,6 +39,7 @@ class ModeDesign(
         binding.ivGlobal.isSelected = binding.check
         binding.ivSmart.isSelected = !binding.check
         uiStore.global = binding.check
+        Global.ui.switchMode = true
         if (binding.check) {
             requests.trySend(Request.PatchMode(TunnelState.Mode.Global))
         } else {

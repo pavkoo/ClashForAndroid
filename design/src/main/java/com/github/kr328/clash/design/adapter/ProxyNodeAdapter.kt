@@ -41,11 +41,19 @@ class ProxyNodeAdapter(
         return states.size
     }
 
-
     suspend fun updateSource(proxies: List<Proxy>) {
         withContext(Dispatchers.Main) {
             swapDataSet(::states, proxies, false)
         }
+    }
+
+    fun find(name: String): Boolean {
+        for (state in states) {
+            if (state.name == name) {
+                return true
+            }
+        }
+        return false
     }
 
 }

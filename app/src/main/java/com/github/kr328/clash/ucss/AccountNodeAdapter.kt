@@ -30,7 +30,7 @@ class AccountNodeAdapter(
     var service: List<TradeService> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountHolder {
-        val layoutId = if (Global.isTablet) R.layout.account_item_land else R.layout.account_item
+        val layoutId = if (Global.ui.isTablet) R.layout.account_item_land else R.layout.account_item
         return AccountHolder(
             LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
         )

@@ -107,7 +107,6 @@ abstract class BaseActivity<D : Design<*>> :
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-
         launch {
             main()
 

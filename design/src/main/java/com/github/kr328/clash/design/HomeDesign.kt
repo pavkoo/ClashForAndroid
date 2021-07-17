@@ -13,14 +13,16 @@ import com.github.kr328.clash.core.util.trafficTotal
 import com.github.kr328.clash.design.adapter.ProxyNodeAdapter
 import com.github.kr328.clash.design.databinding.DesignAboutBinding
 import com.github.kr328.clash.design.databinding.DesignHomeBinding
+import com.github.kr328.clash.design.store.UiStore
 import com.github.kr328.clash.design.util.layoutInflater
 import com.github.kr328.clash.design.util.resolveThemedColor
 import com.github.kr328.clash.design.util.root
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
 import kotlinx.coroutines.*
 
 
-class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
+class HomeDesign(context: Context, val uiStore: UiStore) : Design<HomeDesign.Request>(context) {
 
     enum class Request {
         ToggleStatus,
@@ -36,6 +38,7 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
         FetchProxy,
         Ping,
         Select,
+        ForceSelect,
         OpenWifi,
         OpenAccount,
         OpenSupport,
@@ -57,6 +60,7 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
 
     var group: String? = null
     var currentNode: String? = null
+    var init: Boolean = false
 
     override val root: View
         get() = binding.root
@@ -71,9 +75,8 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
         withContext(Dispatchers.Main) {
             binding.clashRunning = running
             if (running) {
-                request(Request.FetchProxy)
+                setConState(ConState.ED)
             } else {
-                binding.currentNode.setSource(null)
                 setConState(ConState.DIS)
             }
         }
@@ -150,32 +153,43 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
             }
             layoutManager = LinearLayoutManager(context)
             clipToPadding = false
-//            val ATTRS = intArrayOf(android.R.attr.listDivider)
-//
-//            val a = context.obtainStyledAttributes(ATTRS)
-//            val divider: Drawable? = a.getDrawable(0)
-//            val inset = resources.getDimensionPixelSize(R.dimen.item_touch_helper_max_drag_scroll_per_frame)
-//            val insetDivider = InsetDrawable(divider, inset, 0, inset, 0)
-//            a.recycle()
-//
-//            val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-//            itemDecoration.setDrawable(insetDivider)
-//            addItemDecoration(itemDecoration)
         }
+        init = true
+    }
+
+    private fun updateUIFor() {
         GlobalScope.launch {
             withContext(Dispatchers.Main) {
+                fitMode()
                 val service =
-                    Global.user.all.services.find { it.serviceid == Global.user.serviceId }
-                val proxy =
-                    service?.servers?.map {
-                        Proxy(
-                            it.name, it.name, "", Proxy.Type.Selector, 65535
-                        )
-                    }
+                    Global.user.all.services.find { it.name == Global.user.serviceName }
+                val proxy = service?.servers?.map {
+                    Proxy(it.name, it.name, "", Proxy.Type.Selector, 65535)
+                }
                 if (proxy != null) {
                     adapter.updateSource(proxy)
+                    val currentNode1 = uiStore.currentNode
+                    if (currentNode1.isEmpty()) {
+                        if (proxy.isNotEmpty()) {
+                            Global.ui.needPatchNode = true
+                            updateCurrent(proxy[0].name)
+                            request(Request.ForceSelect)
+                        }
+                    } else {
+                        updateCurrent(currentNode1)
+                    }
                 }
             }
+        }
+    }
+
+    private suspend fun fitMode() {
+        if (uiStore.global) {
+            group = "GLOBAL"
+            setMode(TunnelState.Mode.Global)
+        } else {
+            group = "Proxies"
+            setMode(TunnelState.Mode.Rule)
         }
     }
 
@@ -183,11 +197,16 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
         requests.trySend(request)
     }
 
-    suspend fun updateProxy(group: ProxyGroup) {
-        adapter.updateSource(group.proxies)
+    suspend fun updatePing(group: ProxyGroup) {
+        val proxies = group.proxies
+        val newList = ArrayList<Proxy>()
+        for (proxy in proxies) {
+            if (adapter.find(proxy.name)) {
+                newList.add(proxy)
+            }
+        }
+        adapter.updateSource(newList)
         updateCurrent(group.now)
-        requests.trySend(Request.Select)
-        setConState(ConState.ED)
         urlTesting = false
         withContext(Dispatchers.Main) {
             updateUrlTestButtonStatus()
@@ -196,9 +215,12 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
 
     private suspend fun updateCurrent(now: String) {
         currentNode = now
+        Global.ui.currentNode = currentNode
+        uiStore.currentNode = now
         withContext(Dispatchers.Main) {
             val c = adapter.states.find { s -> s.name == now }
             binding.currentNode.setSource(c)
+            adapter?.notifyDataSetChanged()
         }
     }
 
@@ -223,5 +245,24 @@ class HomeDesign(context: Context) : Design<HomeDesign.Request>(context) {
 
     suspend fun changeNode() {
         updateCurrent(currentNode!!)
+    }
+
+    suspend fun updateAllNodes() {
+        if (init) {
+            init = false
+            updateUIFor()
+        }
+        if (Global.ui.switchMode) {
+            Global.ui.switchMode = false
+            fitMode()
+            if (uiStore.global) {
+                Global.ui.needPatchNode = true
+                request(Request.ForceSelect)
+            }
+        }
+        if (Global.ui.switchAccount) {
+            Global.ui.switchAccount = false
+            updateUIFor()
+        }
     }
 }
