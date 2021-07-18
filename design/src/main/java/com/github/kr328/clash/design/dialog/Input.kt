@@ -1,5 +1,6 @@
 package com.github.kr328.clash.design.dialog
 
+import android.app.Activity
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
@@ -8,6 +9,7 @@ import com.github.kr328.clash.design.databinding.DialogTextFieldBinding
 import com.github.kr328.clash.design.util.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.suspendCancellableCoroutine
+import me.jessyan.autosize.AutoSize
 import kotlin.coroutines.resume
 
 suspend fun Context.requestModelTextInput(
@@ -90,7 +92,7 @@ suspend fun Context.requestModelTextInput(
                 requestTextInput()
             }
         }
-
+        AutoSize.autoConvertDensity(this as Activity?,375f,true)
         dialog.show()
     }
 }

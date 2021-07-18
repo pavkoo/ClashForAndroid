@@ -254,7 +254,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="@dimen/main_card_margin_vertical"
                         android:onClick="@{() -> self.request(Request.OpenProfiles)}"
-                        android:visibility="gone"
                         app:icon="@drawable/ic_baseline_view_list"
                         app:subtext="@{profileName != null ? @string/format_profile_activated(profileName) : @string/not_selected}"
                         app:text="@string/profile" />
