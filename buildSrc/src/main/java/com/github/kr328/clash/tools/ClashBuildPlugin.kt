@@ -9,7 +9,7 @@ import java.util.*
 
 class ClashBuildPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-//        target.afterEvaluate {
+        target.afterEvaluate {
 //            target.extensions.getByType(LibraryExtension::class.java).apply {
 //                val abis = defaultConfig.externalNativeBuild.cmake.abiFilters
 //                    .map { NativeAbi.parse(it) }
@@ -51,6 +51,6 @@ class ClashBuildPlugin : Plugin<Project> {
 //                    }
 //                }
 //            }
-//        }
+        }
     }
 }

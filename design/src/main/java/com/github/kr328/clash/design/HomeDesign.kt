@@ -37,6 +37,7 @@ class HomeDesign(context: Context, val uiStore: UiStore) : Design<HomeDesign.Req
         OpenAbout,
         OpenDrawer,
         FetchProxy,
+        PingLoad,
         Ping,
         Select,
         ForceSelect,

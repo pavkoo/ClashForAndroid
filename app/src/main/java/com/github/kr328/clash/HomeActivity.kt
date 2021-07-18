@@ -6,6 +6,7 @@ import com.github.kr328.clash.common.Global
 import com.github.kr328.clash.common.log.Log
 import com.github.kr328.clash.common.util.intent
 import com.github.kr328.clash.core.model.FetchStatus
+import com.github.kr328.clash.core.model.ProxyGroup
 import com.github.kr328.clash.core.model.TunnelState
 import com.github.kr328.clash.design.HomeDesign
 import com.github.kr328.clash.design.ui.ToastDuration
@@ -18,10 +19,13 @@ import com.github.kr328.clash.util.withClash
 import com.github.kr328.clash.util.withProfile
 import kotlinx.coroutines.*
 import kotlinx.coroutines.selects.select
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 
 class HomeActivity : BaseActivity<HomeDesign>() {
     override suspend fun main() {
         val design = HomeDesign(this, uiStore)
+        val reloadLock = Semaphore(10)
 
         setContentDesign(design)
 
@@ -77,6 +81,14 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                         }
 //                        HomeDesign.Request.FetchProxy ->
 //                            fetchProxy()
+                        HomeDesign.Request.PingLoad -> {
+                            val group = reloadLock.withPermit {
+                                withClash {
+                                    queryProxyGroup("Proxies", uiStore.proxySort)
+                                }
+                            }
+                            updatePingNode(group)
+                        }
                         HomeDesign.Request.Ping ->
                             ping()
                         HomeDesign.Request.ForceSelect -> repatchNode()
@@ -110,35 +122,9 @@ class HomeActivity : BaseActivity<HomeDesign>() {
             design?.changeNode()
         }
     }
-//
-//    private suspend fun fetchProxy() {
-//        withClash {
-//            val names = queryProxyGroupNames(true)
-//            if (names.isNotEmpty()) {
-//                val des = "Proxies"
-//                var found = false
-//                for (name in names) {
-//                    if (name == des) {
-//                        found = true
-//                        break
-//                    }
-//                }
-//                if (found) {
-//                    design?.group = des
-//                } else {
-//                    design?.group = names[0]
-//                }
-//                val group = queryProxyGroup(design?.group!!, uiStore.proxySort)
-//                design?.updateProxy(group)
-//            }
-//        }
-//    }
 
-    private suspend fun updateAllNode() {
-        withClash {
-            val group = queryProxyGroup("Proxies", uiStore.proxySort)
-            design?.updatePing(group)
-        }
+    private suspend fun updatePingNode(group: ProxyGroup) {
+        design?.updatePing(group)
     }
 
     private suspend fun ping() {
@@ -146,7 +132,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
             withClash {
                 healthCheck("Proxies")
             }
-            updateAllNode()
+            design?.request(HomeDesign.Request.PingLoad)
         }
     }
 
@@ -172,6 +158,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
     }
 
     private suspend fun HomeDesign.startClash() {
+        Global.ui.needPatchNode = true
         setConState(HomeDesign.ConState.ING)
         val active = withProfile { queryActive() }
 
