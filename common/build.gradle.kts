@@ -54,6 +54,7 @@ dependencies {
     api("com.squareup.okhttp3:logging-interceptor:3.14.9")
     api("io.reactivex.rxjava2:rxjava:2.2.10")
     api("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
 }
 
 repositories {

@@ -26,6 +26,10 @@ android {
         resValue("integer", "release_code", "$buildVersionCode")
     }
 
+    packagingOptions {
+        exclude("DebugProbesKt.bin")
+    }
+
     buildTypes {
         named("release") {
             isMinifyEnabled = true
@@ -121,7 +125,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
 
     implementation(kotlin("stdlib-jdk7"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
     implementation("androidx.core:core-ktx:$coreVersion")
     implementation("androidx.activity:activity:$activityVersion")
     implementation("androidx.appcompat:appcompat:$appcompatVersion")
