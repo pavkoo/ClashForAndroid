@@ -84,7 +84,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
                         HomeDesign.Request.PingLoad -> {
                             val group = reloadLock.withPermit {
                                 withClash {
-                                    queryProxyGroup("Proxies", uiStore.proxySort)
+                                    queryProxyGroup(design?.group!!, uiStore.proxySort)
                                 }
                             }
                             updatePingNode(group)
@@ -130,7 +130,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
     private suspend fun ping() {
         launch {
             withClash {
-                healthCheck("Proxies")
+                healthCheck(design?.group!!)
             }
             design?.request(HomeDesign.Request.PingLoad)
         }
@@ -140,16 +140,27 @@ class HomeActivity : BaseActivity<HomeDesign>() {
         setClashRunning(clashRunning)
 
         if (clashRunning) {
-            withClash {
-                val group = queryProxyGroup(design?.group!!, uiStore.proxySort)
-                if (group.now != Global.ui.currentNode) {
-                    Global.ui.needPatchNode = true
-                    repatchNode()
-                }
-            }
+//            withClash {
+//                val group = queryProxyGroup(design?.group!!, uiStore.proxySort)
+//                if (group.now != Global.ui.currentNode) {
+//                    Global.ui.needPatchNode = true
+//                    repatchNode()
+//                }
+//            }
+            fetchNode()
         }
     }
 
+    private suspend fun fetchNode() {
+        withClash {
+            val names = queryProxyGroupNames(true)
+            if (names.isNotEmpty()) {
+                val group = queryProxyGroup(names[0], uiStore.proxySort)
+                design?.group = names[0]
+                design?.updatePing(group)
+            }
+        }
+    }
 
     private suspend fun HomeDesign.fetchTraffic() {
         withClash {
