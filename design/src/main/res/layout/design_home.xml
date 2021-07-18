@@ -289,7 +289,6 @@
                         android:layout_height="match_parent"
                         android:layout_marginVertical="@dimen/main_label_margin_vertical"
                         android:onClick="@{() -> self.request(Request.OpenProxy )}"
-                        android:visibility="gone"
                         app:text="@string/proxy" />
 
                     <com.github.kr328.clash.design.view.LargeActionLabel

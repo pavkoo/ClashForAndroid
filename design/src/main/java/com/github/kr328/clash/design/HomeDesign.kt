@@ -3,6 +3,7 @@ package com.github.kr328.clash.design
 
 import android.content.Context
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kr328.clash.common.Global
@@ -129,6 +130,12 @@ class HomeDesign(context: Context, val uiStore: UiStore) : Design<HomeDesign.Req
         }
     }
 
+    suspend fun showNotConnected(){
+        withContext(Dispatchers.Main) {
+            Toast.makeText(context,R.string.connHint,Toast.LENGTH_SHORT).show()
+        }
+    }
+
     suspend fun showUpdatedTips() {
         withContext(Dispatchers.Main) {
             MaterialAlertDialogBuilder(context)
@@ -198,14 +205,7 @@ class HomeDesign(context: Context, val uiStore: UiStore) : Design<HomeDesign.Req
     }
 
     suspend fun updatePing(group: ProxyGroup) {
-        val proxies = group.proxies
-        val newList = ArrayList<Proxy>()
-        for (proxy in proxies) {
-            if (adapter.find(proxy.name)) {
-                newList.add(proxy)
-            }
-        }
-        adapter.updateSource(newList)
+        adapter.updateSource(group.proxies)
         updateCurrent(group.now)
         urlTesting = false
         withContext(Dispatchers.Main) {

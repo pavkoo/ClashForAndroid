@@ -101,9 +101,6 @@ class HomeActivity : BaseActivity<HomeDesign>() {
     }
 
     private suspend fun selectNode() {
-        if (!clashRunning) {
-            return
-        }
         if (design?.group.isNullOrEmpty()) {
             return
         }
@@ -139,7 +136,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
 
     private suspend fun updateAllNode() {
         withClash {
-            val group = queryProxyGroup(design?.group!!, uiStore.proxySort)
+            val group = queryProxyGroup("Proxies", uiStore.proxySort)
             design?.updatePing(group)
         }
     }
@@ -147,7 +144,7 @@ class HomeActivity : BaseActivity<HomeDesign>() {
     private suspend fun ping() {
         launch {
             withClash {
-                design?.group?.let { healthCheck(it) }
+                healthCheck("Proxies")
             }
             updateAllNode()
         }
@@ -155,11 +152,18 @@ class HomeActivity : BaseActivity<HomeDesign>() {
 
     private suspend fun HomeDesign.fetch() {
         setClashRunning(clashRunning)
+
+        if (clashRunning) {
+            withClash {
+                val group = queryProxyGroup(design?.group!!, uiStore.proxySort)
+                if (group.now != Global.ui.currentNode) {
+                    Global.ui.needPatchNode = true
+                    repatchNode()
+                }
+            }
+        }
     }
 
-    private suspend fun HomeDesign.forceNode() {
-        request(HomeDesign.Request.Select)
-    }
 
     private suspend fun HomeDesign.fetchTraffic() {
         withClash {
